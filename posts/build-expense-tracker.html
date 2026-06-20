@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Used by app.js to identify the current post for prev/next navigation -->
+  <meta name="post-slug" content="build-expense-tracker" />
+
+  <title>How to Build an Expense Tracker with Vanilla JS — Build Apps Blog</title>
+  <meta name="description" content="Learn how to build a real-world expense tracker using HTML, CSS, and JavaScript — complete with localStorage persistence, category filters, and a live Chart.js summary." />
+
+  <!-- Design system (Phase 1) -->
+  <link rel="stylesheet" href="../assets/css/style.css" />
+
+  <!-- Google Fonts: DM Serif Display + Inter (mirrors Phase 1 design system) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body class="post-page">
+
+  <!-- ── Site Header ─────────────────────────────────────────────────────── -->
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
+      <a href="../index.html" class="site-logo">Build Apps Blog</a>
+
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#posts">Posts</a></li>
+          <li><a href="../index.html#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Post Hero ───────────────────────────────────────────────────────── -->
+  <div class="post-hero">
+    <div class="container post-hero__inner">
+
+      <!-- Breadcrumb -->
+      <nav class="post-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page">How to Build an Expense Tracker</li>
+        </ol>
+      </nav>
+
+      <!-- Tags -->
+      <div class="post-hero__tags">
+        <span class="post-tag">JavaScript</span>
+        <span class="post-tag">Projects</span>
+        <span class="post-tag">CSS</span>
+      </div>
+
+      <!-- Title -->
+      <h1 class="post-hero__title">
+        How to Build an Expense Tracker with Vanilla JS
+      </h1>
+
+      <!-- Meta -->
+      <div class="post-hero__meta">
+        <span class="post-hero__author">Japhet Sunday</span>
+        <span class="post-hero__sep" aria-hidden="true">·</span>
+        <time class="post-hero__date" datetime="2026-06-16">June 16, 2026</time>
+        <span class="post-hero__sep" aria-hidden="true">·</span>
+        <span class="post-hero__read-time">8 min read</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero Image ──────────────────────────────────────────────────────── -->
+  <div class="post-thumbnail-banner">
+    <div class="container">
+      <figure class="post-thumbnail-banner__figure">
+        <img
+          src="../assets/images/thumbnails/expense-tracker.png"
+          alt="BudgetBuddy expense tracker app screenshot"
+          class="post-thumbnail-banner__img"
+          width="1200"
+          height="630"
+        />
+        <!-- Remove the img tag above and use the div below if no image is ready yet -->
+        <!-- <div class="post-thumbnail-banner__placeholder" aria-hidden="true"></div> -->
+      </figure>
+    </div>
+  </div>
+
+  <!-- ── Article Body ────────────────────────────────────────────────────── -->
+  <main class="post-main" id="main-content">
+    <div class="container">
+      <div class="post-layout">
+
+        <!-- Article content -->
+        <article class="post-content" aria-label="Article body">
+
+          <p class="post-lead">
+            An expense tracker is one of those projects that sounds simple but hides
+            real engineering decisions. By the end of this walkthrough you'll have a
+            working app that stores data between sessions, filters by category, and
+            renders a live chart — all without a single framework.
+          </p>
+
+          <h2>What We're Building</h2>
+          <p>
+            BudgetBuddy is a single-page expense tracker. The key features are:
+          </p>
+          <ul>
+            <li>Add, edit, and delete transactions with a category label</li>
+            <li>Persistent storage via <code>localStorage</code></li>
+            <li>A doughnut chart powered by Chart.js showing spending by category</li>
+            <li>Filter transactions by month or category</li>
+            <li>A running balance displayed in the header</li>
+          </ul>
+
+          <h2>Architecture: Seven Modules</h2>
+          <p>
+            Rather than dumping everything into one JavaScript file, BudgetBuddy uses
+            a seven-module architecture with native ES Modules (no bundler required):
+          </p>
+          <ul>
+            <li><code>app.js</code> — entry point, wires everything together</li>
+            <li><code>storage.js</code> — read/write wrapper around <code>localStorage</code></li>
+            <li><code>transactions.js</code> — CRUD operations on transaction data</li>
+            <li><code>calculations.js</code> — totals, balances, category summaries</li>
+            <li><code>filters.js</code> — filter state and predicate logic</li>
+            <li><code>ui.js</code> — all DOM mutations live here, nowhere else</li>
+            <li><code>utils.js</code> — date formatting, currency formatting, etc.</li>
+          </ul>
+
+          <h2>The Storage Module</h2>
+          <p>
+            The golden rule of <code>storage.js</code>: it is the only file that touches
+            <code>localStorage</code>. Every other module asks storage.js for data; none
+            of them read from <code>window.localStorage</code> directly.
+          </p>
+
+          <pre><code>// storage.js
+const STORAGE_KEY = 'budgetbuddy_transactions';
+
+export function loadTransactions() {
+  try {
+    return JSON.parse(localStorage.getItem(STORAGE_KEY)) ?? [];
+  } catch {
+    return [];
+  }
+}
+
+export function saveTransactions(transactions) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(transactions));
+}</code></pre>
+
+          <p>
+            The <code>try/catch</code> is not optional — <code>JSON.parse</code> throws if
+            the stored value is corrupt, and browsers can throw a
+            <code>QuotaExceededError</code> on writes when storage is full.
+          </p>
+
+          <h2>Chart.js Integration</h2>
+          <p>
+            Load Chart.js from a CDN and initialise the doughnut chart once on page
+            load. When the transaction list changes, call <code>chart.data.datasets[0].data = newData</code>
+            and <code>chart.update()</code> — never destroy and recreate the chart instance,
+            as that causes a visible flash.
+          </p>
+
+          <h2>The ES Module Gotcha</h2>
+          <p>
+            If you open <code>index.html</code> directly from the filesystem
+            (<code>file://</code>), the browser will refuse to load ES Modules and
+            throw a CORS error. Always serve the project through a local server —
+            VS Code's Live Server extension or <code>npx serve .</code> both work.
+          </p>
+
+          <h2>What's Next</h2>
+          <p>
+            In a future post I'll show how to add a recurring transactions feature —
+            debits or credits that repeat on a schedule and self-insert into the
+            transaction list on the right date, without any server involvement.
+          </p>
+
+        </article>
+
+        <!-- Optional sidebar space (for future Table of Contents, etc.) -->
+        <aside class="post-sidebar" aria-label="Post sidebar">
+          <!-- Phase 3: Table of Contents auto-generated from headings -->
+        </aside>
+
+      </div><!-- /.post-layout -->
+    </div><!-- /.container -->
+  </main>
+
+  <!-- ── Previous / Next Navigation ─────────────────────────────────────── -->
+  <nav class="post-pagination" aria-label="Post navigation">
+    <div class="container post-pagination__inner">
+
+      <!-- Older post (previous in time) — populated by app.js -->
+      <a href="#" class="post-pagination__item post-pagination__item--prev" data-prev-post hidden>
+        <span class="post-pagination__direction">← Older post</span>
+        <span class="post-pagination__label" data-nav-label></span>
+      </a>
+
+      <!-- Newer post (next in time) — populated by app.js -->
+      <a href="#" class="post-pagination__item post-pagination__item--next" data-next-post hidden>
+        <span class="post-pagination__direction">Newer post →</span>
+        <span class="post-pagination__label" data-nav-label></span>
+      </a>
+
+    </div>
+  </nav>
+
+  <!-- ── Site Footer ─────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__copy">
+        © <span id="footer-year"></span> Build Apps Blog · Built with pure HTML, CSS &amp; JS
+      </p>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="../assets/js/app.js"></script>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
