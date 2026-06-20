@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Used by app.js to identify the current post for prev/next navigation -->
+  <meta name="post-slug" content="school-portal-dashboard" />
+
+  <title>Building a School Management Portal from Scratch — Build Apps Blog</title>
+  <meta name="description" content="A step-by-step walkthrough of how I built EduCore — a full CRUD school portal with student records, attendance tracking, and dark mode using only Bootstrap 5 and vanilla JS." />
+
+  <link rel="stylesheet" href="../assets/css/style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+</head>
+
+<body class="post-page">
+
+  <!-- ── Site Header ─────────────────────────────────────────────────────── -->
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
+      <a href="../index.html" class="site-logo">Build Apps Blog</a>
+
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list">
+          <li><a href="../index.html">Home</a></li>
+          <li><a href="../index.html#posts">Posts</a></li>
+          <li><a href="../index.html#about">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ── Post Hero ───────────────────────────────────────────────────────── -->
+  <div class="post-hero">
+    <div class="container post-hero__inner">
+
+      <nav class="post-breadcrumb" aria-label="Breadcrumb">
+        <ol>
+          <li><a href="../index.html">Home</a></li>
+          <li aria-hidden="true">›</li>
+          <li aria-current="page">Building a School Management Portal</li>
+        </ol>
+      </nav>
+
+      <div class="post-hero__tags">
+        <span class="post-tag">JavaScript</span>
+        <span class="post-tag">Bootstrap</span>
+        <span class="post-tag">Projects</span>
+      </div>
+
+      <h1 class="post-hero__title">
+        Building a School Management Portal from Scratch
+      </h1>
+
+      <div class="post-hero__meta">
+        <span class="post-hero__author">Japhet Sunday</span>
+        <span class="post-hero__sep" aria-hidden="true">·</span>
+        <time class="post-hero__date" datetime="2026-06-23">June 23, 2026</time>
+        <span class="post-hero__sep" aria-hidden="true">·</span>
+        <span class="post-hero__read-time">10 min read</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Hero Image ──────────────────────────────────────────────────────── -->
+  <div class="post-thumbnail-banner">
+    <div class="container">
+      <figure class="post-thumbnail-banner__figure">
+        <img
+          src="../assets/images/thumbnails/school-portal.png"
+          alt="EduCore school management portal screenshot"
+          class="post-thumbnail-banner__img"
+          width="1200"
+          height="630"
+        />
+      </figure>
+    </div>
+  </div>
+
+  <!-- ── Article Body ────────────────────────────────────────────────────── -->
+  <main class="post-main" id="main-content">
+    <div class="container">
+      <div class="post-layout">
+
+        <article class="post-content" aria-label="Article body">
+
+          <p class="post-lead">
+            EduCore started as a capstone project idea: what would a real school
+            admin portal look like if you built it with no backend? Turns out you
+            can get surprisingly far — full CRUD for students, teachers, courses,
+            results, and an attendance tracker — using only three files and
+            <code>localStorage</code>.
+          </p>
+
+          <h2>Scope of the Project</h2>
+          <p>
+            Before writing a line of code, I listed every feature the portal needed:
+          </p>
+          <ul>
+            <li>Student registry with add / edit / delete</li>
+            <li>Teacher profiles and course assignments</li>
+            <li>Results entry and grade calculation</li>
+            <li>Attendance tracker with present / absent / late states</li>
+            <li>Dark mode toggle that persists across sessions</li>
+            <li>Realistic Nigerian seed data so the demo looks credible</li>
+          </ul>
+
+          <h2>Three-File Architecture</h2>
+          <p>
+            EduCore ships as exactly three files: <code>index.html</code>,
+            <code>style.css</code>, and <code>app.js</code>. Bootstrap 5 is loaded
+            from a CDN. This constraint forces you to think carefully about
+            separation of concerns even without a build tool enforcing it.
+          </p>
+
+          <h2>The Seven localStorage Keys</h2>
+          <p>
+            Each data domain gets its own key rather than one giant serialised object.
+            This makes reads faster and avoids overwriting unrelated data on every save:
+          </p>
+
+          <pre><code>const KEYS = {
+  students:   'educore_students',
+  teachers:   'educore_teachers',
+  courses:    'educore_courses',
+  results:    'educore_results',
+  attendance: 'educore_attendance',
+  darkMode:   'educore_dark_mode',
+  lastSaved:  'educore_last_saved',
+};</code></pre>
+
+          <h2>Dynamic Table Rendering</h2>
+          <p>
+            Every table in the portal is rendered by a single <code>renderTable(key, columns)</code>
+            function. Pass it a storage key and a column config array; it reads from
+            <code>localStorage</code>, maps the data to rows, and injects the HTML.
+            Adding a new data domain means adding a key and a column config — not a
+            new rendering function.
+          </p>
+
+          <h2>Dark Mode Without a Framework</h2>
+          <p>
+            Dark mode is implemented with a single class on <code>&lt;body&gt;</code>:
+            <code>data-theme="dark"</code>. CSS custom properties do the rest — every
+            colour in the design system is defined as a variable, so the entire palette
+            swaps with one attribute change. The preference is written to
+            <code>localStorage</code> on toggle and read on page load before the first
+            paint to prevent a flash of light mode.
+          </p>
+
+          <h2>Seed Data Strategy</h2>
+          <p>
+            On first load, if <code>localStorage</code> is empty, the app runs a
+            <code>seedDatabase()</code> function that populates all seven keys with
+            realistic-looking Nigerian school data: proper names, subject combinations
+            that match real curricula, and plausible attendance records. This makes
+            every demo feel live rather than empty.
+          </p>
+
+          <h2>Lessons Learned</h2>
+          <p>
+            The biggest surprise was how far a disciplined module-like structure gets
+            you in vanilla JS. The second biggest was that Bootstrap's utility classes
+            handle 80% of layout needs — you only write custom CSS for the 20% that
+            requires your brand's visual identity.
+          </p>
+
+        </article>
+
+        <aside class="post-sidebar" aria-label="Post sidebar">
+          <!-- Phase 3: Table of Contents -->
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ── Previous / Next Navigation ─────────────────────────────────────── -->
+  <nav class="post-pagination" aria-label="Post navigation">
+    <div class="container post-pagination__inner">
+      <a href="#" class="post-pagination__item post-pagination__item--prev" data-prev-post hidden>
+        <span class="post-pagination__direction">← Older post</span>
+        <span class="post-pagination__label" data-nav-label></span>
+      </a>
+      <a href="#" class="post-pagination__item post-pagination__item--next" data-next-post hidden>
+        <span class="post-pagination__direction">Newer post →</span>
+        <span class="post-pagination__label" data-nav-label></span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- ── Site Footer ─────────────────────────────────────────────────────── -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__copy">
+        © <span id="footer-year"></span> Build Apps Blog · Built with pure HTML, CSS &amp; JS
+      </p>
+    </div>
+  </footer>
+
+  <script src="../assets/js/app.js"></script>
+  <script>
+    document.getElementById('footer-year').textContent = new Date().getFullYear();
+  </script>
+
+</body>
+</html>
