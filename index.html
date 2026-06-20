@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<!--
+  Build Apps Blog — index.html
+  Phase 1: Homepage
+  
+  All content sections:
+  1. <header>  — Sticky navigation bar
+  2. <main>    — Hero, Search/Filter, Posts
+  3. <footer>  — Brand, links, copyright
+  
+  Scripts load at the bottom of <body> in dependency order:
+    1. app.js  — theme, nav, shared utilities
+    2. blog.js — mock data, rendering engine
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Primary SEO meta -->
+  <meta name="description"
+    content="Build Apps Blog — learn how to build real web applications with HTML, CSS, and JavaScript. Weekly step-by-step project tutorials for beginner to intermediate developers.">
+  <meta name="author" content="Build Apps Blog">
+
+  <!-- Open Graph (social sharing) -->
+  <meta property="og:title"       content="Build Apps Blog – Learn How to Build Real Web Applications">
+  <meta property="og:description" content="Weekly tutorials on building real frontend applications — expense trackers, dashboards, chat apps, and more. No fluff. Just code.">
+  <meta property="og:type"        content="website">
+  <meta property="og:locale"      content="en_US">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:title"       content="Build Apps Blog">
+  <meta name="twitter:description" content="Learn to build real web applications with HTML, CSS, and JavaScript.">
+
+  <!-- Favicon (emoji SVG — Phase 2 adds a proper .ico) -->
+  <link rel="icon" type="image/svg+xml"
+    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+
+  <!-- Page title -->
+  <title>Build Apps Blog – Learn How to Build Real Web Applications</title>
+
+  <!-- Google Fonts: DM Serif Display (headlines) + Inter (body) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet">
+
+  <!-- Main stylesheet -->
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+
+<body data-page="home">
+
+  <!-- ════════════════════════════════════════════════════════════
+       NAVIGATION
+       ════════════════════════════════════════════════════════════ -->
+  <header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav__inner">
+
+          <!-- Logo -->
+          <a href="index.html" class="nav__logo" aria-label="Build Apps Blog — go to homepage">
+            <span class="nav__logo-icon" aria-hidden="true">⚡</span>
+            <span class="nav__logo-text">Build Apps Blog</span>
+          </a>
+
+          <!-- Desktop navigation links -->
+          <ul class="nav__links" role="list">
+            <li>
+              <a href="index.html" class="nav__link nav__link--active"
+                aria-current="page">Home</a>
+            </li>
+            <li>
+              <a href="blog.html" class="nav__link">Blog</a>
+            </li>
+            <li>
+              <a href="about.html" class="nav__link">About</a>
+            </li>
+          </ul>
+
+          <!-- Right-side action buttons -->
+          <div class="nav__actions">
+
+            <!-- Dark mode toggle -->
+            <button
+              class="nav__theme-btn"
+              aria-label="Switch to dark mode"
+              title="Switch to dark mode">
+              🌙
+            </button>
+
+            <!-- Mobile hamburger menu button -->
+            <button
+              class="nav__hamburger"
+              aria-label="Open navigation menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu">
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+            </button>
+
+          </div>
+        </div><!-- /.nav__inner -->
+      </div><!-- /.container -->
+
+      <!-- Mobile dropdown menu -->
+      <nav
+        id="mobile-menu"
+        class="nav__mobile-menu"
+        aria-label="Mobile navigation">
+        <a href="index.html" class="nav__link nav__link--active"
+          aria-current="page">Home</a>
+        <a href="blog.html"  class="nav__link">Blog</a>
+        <a href="about.html" class="nav__link">About</a>
+      </nav>
+
+    </nav>
+  </header>
+  <!-- /header -->
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       MAIN CONTENT
+       ════════════════════════════════════════════════════════════ -->
+  <main id="main-content">
+
+
+    <!-- ── Hero Section ────────────────────────────────────────── -->
+    <section class="hero" aria-labelledby="hero-heading">
+      <div class="container">
+        <div class="hero__content">
+
+          <!-- Eyebrow label -->
+          <div class="hero__eyebrow" aria-hidden="true">
+            <span>✦</span>
+            <span>Weekly frontend tutorials</span>
+          </div>
+
+          <!-- Main headline -->
+          <h1 class="hero__title" id="hero-heading">
+            Learn to build<br>
+            <em>real</em> web applications
+          </h1>
+
+          <!-- Supporting description -->
+          <p class="hero__description">
+            Step-by-step tutorials on building frontend projects that actually
+            work — expense trackers, dashboards, AI chat apps, and more.
+            No fluff. Just code.
+          </p>
+
+          <!-- CTA buttons -->
+          <div class="hero__actions">
+            <a href="#posts-section" class="btn-primary">
+              <span aria-hidden="true">📚</span>
+              Start reading
+            </a>
+            <a href="about.html" class="btn-secondary">
+              About this blog
+            </a>
+          </div>
+
+          <!-- Quick-glance stats -->
+          <div class="hero__stats" aria-label="Blog stats">
+
+            <div class="hero__stat">
+              <div class="hero__stat-value">7+</div>
+              <div class="hero__stat-label">Published tutorials</div>
+            </div>
+
+            <div class="hero__stat-divider" aria-hidden="true"></div>
+
+            <div class="hero__stat">
+              <div class="hero__stat-value">100%</div>
+              <div class="hero__stat-label">Free to read</div>
+            </div>
+
+            <div class="hero__stat-divider" aria-hidden="true"></div>
+
+            <div class="hero__stat">
+              <div class="hero__stat-value">0</div>
+              <div class="hero__stat-label">Frameworks required</div>
+            </div>
+
+          </div>
+
+        </div><!-- /.hero__content -->
+      </div><!-- /.container -->
+    </section>
+    <!-- /hero -->
+
+
+    <!-- ── Search & Filter Bar ──────────────────────────────────── -->
+    <section
+      class="search-filter"
+      aria-label="Search and filter blog posts">
+      <div class="container">
+        <div class="search-filter__row">
+
+          <!-- Search input -->
+          <div class="search-box" role="search">
+            <span class="search-box__icon" aria-hidden="true">🔍</span>
+
+            <label for="search-input" class="sr-only">
+              Search posts by title, topic, or keyword
+            </label>
+
+            <input
+              type="search"
+              id="search-input"
+              class="search-box__input"
+              placeholder="Search tutorials…"
+              autocomplete="off"
+              spellcheck="false"
+              aria-label="Search posts">
+
+            <!-- Clear button — shown by JS when input has content -->
+            <button
+              id="search-clear"
+              class="search-box__clear"
+              aria-label="Clear search"
+              title="Clear search">
+              ✕
+            </button>
+          </div>
+          <!-- /.search-box -->
+
+          <!-- Tag filter buttons (populated by JS) -->
+          <div
+            id="filter-tags"
+            class="filter-tags"
+            role="group"
+            aria-label="Filter posts by category">
+            <!-- JS renders buttons here -->
+          </div>
+
+          <!-- Live post count -->
+          <span
+            id="post-count"
+            class="search-filter__count"
+            aria-live="polite"
+            aria-atomic="true">
+            <!-- JS updates this -->
+          </span>
+
+        </div><!-- /.search-filter__row -->
+      </div><!-- /.container -->
+    </section>
+    <!-- /search-filter -->
+
+
+    <!-- ── Posts Section ────────────────────────────────────────── -->
+    <section
+      id="posts-section"
+      class="posts-section"
+      aria-labelledby="posts-heading">
+      <div class="container">
+
+        <!-- Section header -->
+        <div class="posts-section__header">
+          <h2 class="posts-section__title" id="posts-heading">
+            Latest Articles
+          </h2>
+          <a href="blog.html" class="posts-section__link">
+            View all
+            <span aria-hidden="true">→</span>
+          </a>
+        </div>
+
+        <!-- Loading skeleton (hidden once JS renders) -->
+        <div
+          id="posts-loading"
+          class="skeleton-grid"
+          aria-busy="true"
+          aria-label="Loading posts…">
+          <!-- Skeleton card 1 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--sm"></div>
+              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
+              <div class="skeleton-line skeleton-line--md"></div>
+              <div class="skeleton-line skeleton-line--md"></div>
+            </div>
+          </div>
+          <!-- Skeleton card 2 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--sm"></div>
+              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
+              <div class="skeleton-line skeleton-line--md"></div>
+              <div class="skeleton-line skeleton-line--sm"></div>
+            </div>
+          </div>
+          <!-- Skeleton card 3 -->
+          <div class="skeleton-card">
+            <div class="skeleton-thumb"></div>
+            <div class="skeleton-body">
+              <div class="skeleton-line skeleton-line--sm"></div>
+              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
+              <div class="skeleton-line skeleton-line--lg"></div>
+              <div class="skeleton-line skeleton-line--sm"></div>
+            </div>
+          </div>
+        </div>
+        <!-- /posts-loading -->
+
+        <!-- Featured post slot (populated by JS) -->
+        <div
+          id="featured-post"
+          aria-label="Featured article">
+          <!-- JS renders the featured post card here -->
+        </div>
+
+        <!-- Regular posts grid (populated by JS) -->
+        <div
+          id="posts-grid"
+          class="posts-grid"
+          aria-label="Blog posts">
+          <!-- JS renders post cards here -->
+        </div>
+
+        <!-- Empty state (shown by JS when no results match) -->
+        <div
+          id="empty-state"
+          class="empty-state"
+          role="status"
+          aria-live="polite">
+          <div class="empty-state__icon" aria-hidden="true">🔍</div>
+          <h3 class="empty-state__title">No posts found</h3>
+          <p class="empty-state__text">
+            Nothing matches "<span id="empty-query"></span>" in
+            your current filter. Try a different keyword or browse all articles.
+          </p>
+          <button
+            id="reset-filters"
+            class="empty-state__reset"
+            type="button">
+            <span aria-hidden="true">↩</span>
+            Show all posts
+          </button>
+        </div>
+        <!-- /empty-state -->
+
+      </div><!-- /.container -->
+    </section>
+    <!-- /posts-section -->
+
+
+  </main>
+  <!-- /main -->
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       FOOTER
+       ════════════════════════════════════════════════════════════ -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+
+      <!-- Three-column grid: brand | navigate | topics -->
+      <div class="footer__grid">
+
+        <!-- Brand column -->
+        <div class="footer__brand">
+          <p class="footer__brand-name">Build Apps Blog</p>
+          <p class="footer__brand-desc">
+            Weekly tutorials on building real-world web applications
+            with HTML, CSS, and Vanilla JavaScript. From beginner
+            project to production-ready code.
+          </p>
+          <!-- Social placeholder links -->
+          <div class="footer__socials" aria-label="Social links">
+            <a
+              href="#"
+              class="footer__social-btn"
+              aria-label="GitHub (placeholder)"
+              title="GitHub">
+              🐙
+            </a>
+            <a
+              href="#"
+              class="footer__social-btn"
+              aria-label="Twitter / X (placeholder)"
+              title="Twitter">
+              🐦
+            </a>
+            <a
+              href="#"
+              class="footer__social-btn"
+              aria-label="LinkedIn (placeholder)"
+              title="LinkedIn">
+              💼
+            </a>
+            <a
+              href="#"
+              class="footer__social-btn"
+              aria-label="RSS feed (placeholder)"
+              title="RSS">
+              📡
+            </a>
+          </div>
+        </div>
+
+        <!-- Navigate column -->
+        <div>
+          <p class="footer__col-title">Navigate</p>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html" class="footer__link">Home</a></li>
+            <li><a href="blog.html"  class="footer__link">All articles</a></li>
+            <li><a href="about.html" class="footer__link">About</a></li>
+          </ul>
+        </div>
+
+        <!-- Topics column -->
+        <div>
+          <p class="footer__col-title">Topics</p>
+          <ul class="footer__links" role="list">
+            <li><a href="blog.html" class="footer__link">JavaScript Projects</a></li>
+            <li><a href="blog.html" class="footer__link">CSS Techniques</a></li>
+            <li><a href="blog.html" class="footer__link">UI Builds</a></li>
+            <li><a href="blog.html" class="footer__link">API Integration</a></li>
+            <li><a href="blog.html" class="footer__link">Frontend Fundamentals</a></li>
+          </ul>
+        </div>
+
+      </div>
+      <!-- /.footer__grid -->
+
+      <!-- Bottom bar: copyright + legal -->
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; <span id="footer-year"></span> Build Apps Blog.
+          Built with HTML, CSS &amp; JavaScript.
+        </p>
+        <nav class="footer__bottom-links" aria-label="Legal links">
+          <a href="#" class="footer__bottom-link">Privacy</a>
+          <a href="#" class="footer__bottom-link">Terms</a>
+          <a href="about.html" class="footer__bottom-link">About</a>
+        </nav>
+      </div>
+
+    </div><!-- /.container -->
+  </footer>
+  <!-- /footer -->
+
+
+  <!-- ════════════════════════════════════════════════════════════
+       SCRIPTS
+       Load order matters — app.js first (provides utilities),
+       then blog.js (consumes them).
+       ════════════════════════════════════════════════════════════ -->
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/blog.js"></script>
+
+</body>
+</html>
