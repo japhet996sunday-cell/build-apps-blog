@@ -1,16 +1,23 @@
 /**
  * blog.js — Build Apps Blog | Content Management Engine
+ * Phase 2B update: featured posts sorting, updatedDate display on cards.
  *
  * Responsibilities:
  *  1. Fetch posts.json and parse post metadata
  *  2. Filter posts by publishDate (auto-publishing scheduler)
- *  3. Render post cards to the homepage grid
- *  4. Support tag filtering and "load more" pagination
+ *  3. Sort: featured posts first, then newest-first within each group
+ *  4. Render post cards to the homepage grid
+ *  5. Support tag filtering and "load more" pagination
  *
  * To publish a new post:
  *  - Add a .html file to /posts/
  *  - Add an entry to posts.json with a future publishDate
  *  - The post appears automatically on that date — no code changes needed
+ *
+ * New optional fields in posts.json (Phase 2B):
+ *  - featured: true          → post is pinned above non-featured posts
+ *  - updatedDate: "YYYY-MM-DD" → shown on the card alongside publishDate
+ *  - author: { name, bio, avatar, github, linkedin }
  */
 
 'use strict';
@@ -29,15 +36,13 @@ const state = {
   allPosts: [],        // All published posts (filtered by date)
   filteredPosts: [],   // Posts after tag filter is applied
   activeTag: 'All',   // Currently selected tag filter
-  visibleCount: BLOG_CONFIG.postsPerPage, // How many cards are rendered
+  visibleCount: BLOG_CONFIG.postsPerPage,
 };
 
 // ─── Date Utilities ───────────────────────────────────────────────────────────
 
 /**
- * Returns today's date as a YYYY-MM-DD string using local time.
- * Using local date (not UTC) ensures the post goes live at midnight
- * in the reader's own timezone, which is the most intuitive behaviour.
+ * Returns today's date as YYYY-MM-DD in local time.
  */
 function getTodayString() {
   const now = new Date();
@@ -49,11 +54,7 @@ function getTodayString() {
 
 /**
  * Auto-publishing filter.
- * Returns true if the post's publishDate is today or in the past.
- * Future-dated posts are silently excluded — they need no manual hiding.
- *
- * @param {string} publishDate - ISO date string from posts.json (YYYY-MM-DD)
- * @returns {boolean}
+ * Returns true if publishDate is today or in the past.
  */
 function isPublished(publishDate) {
   return publishDate <= getTodayString();
@@ -62,13 +63,9 @@ function isPublished(publishDate) {
 /**
  * Format a YYYY-MM-DD string into a human-readable date.
  * e.g. "2026-07-07" → "July 7, 2026"
- *
- * @param {string} dateStr
- * @returns {string}
  */
 function formatDate(dateStr) {
   const [year, month, day] = dateStr.split('-').map(Number);
-  // Construct date at noon local time to avoid any UTC-offset edge cases
   const date = new Date(year, month - 1, day, 12);
   return date.toLocaleDateString('en-US', {
     year: 'numeric',
@@ -80,10 +77,11 @@ function formatDate(dateStr) {
 // ─── Data Fetching ────────────────────────────────────────────────────────────
 
 /**
- * Fetch and parse posts.json, then apply the publish-date filter.
- * Posts are returned newest-first (descending publishDate).
+ * Fetch posts.json, apply the publish-date filter, then sort:
+ *   1. Featured posts first (featured: true)
+ *   2. Within each group, newest publishDate first
  *
- * @returns {Promise<Object[]>} Array of published post objects
+ * If no posts are featured, all posts sort newest-first (same as before).
  */
 async function fetchPublishedPosts() {
   const response = await fetch(BLOG_CONFIG.dataSource);
@@ -94,10 +92,15 @@ async function fetchPublishedPosts() {
 
   const posts = await response.json();
 
-  // Filter to only published posts, then sort newest first
-  const published = posts
-    .filter(post => isPublished(post.publishDate))
-    .sort((a, b) => (a.publishDate < b.publishDate ? 1 : -1));
+  const published = posts.filter(post => isPublished(post.publishDate));
+
+  // Sort: featured posts bubble to the top; within each group, newest first.
+  // Boolean subtraction trick: (false - true) = -1, so featured items go first.
+  published.sort((a, b) => {
+    const featuredDiff = (b.featured ? 1 : 0) - (a.featured ? 1 : 0);
+    if (featuredDiff !== 0) return featuredDiff;
+    return a.publishDate < b.publishDate ? 1 : -1;
+  });
 
   return published;
 }
@@ -105,10 +108,8 @@ async function fetchPublishedPosts() {
 // ─── Tag System ───────────────────────────────────────────────────────────────
 
 /**
- * Extract all unique tags from the published posts and build the
- * filter bar above the post grid. Prepends an "All" option.
- *
- * @param {Object[]} posts
+ * Extract unique tags from published posts and build the filter bar.
+ * Prepends "All". Tags are sorted alphabetically.
  */
 function renderTagFilters(posts) {
   const tagSet = new Set();
@@ -131,7 +132,6 @@ function renderTagFilters(posts) {
     `)
     .join('');
 
-  // Attach click handlers
   container.querySelectorAll('.tag-filter-btn').forEach(btn => {
     btn.addEventListener('click', () => handleTagFilter(btn.dataset.tag));
   });
@@ -139,9 +139,7 @@ function renderTagFilters(posts) {
 
 /**
  * Handle tag filter button clicks.
- * Updates active state, filters posts, and re-renders the grid from page 1.
- *
- * @param {string} tag
+ * Re-applies the featured sort within the filtered subset.
  */
 function handleTagFilter(tag) {
   state.activeTag = tag;
@@ -151,32 +149,45 @@ function handleTagFilter(tag) {
     ? [...state.allPosts]
     : state.allPosts.filter(post => post.tags.includes(tag));
 
-  renderTagFilters(state.allPosts); // Re-render to update active button
+  renderTagFilters(state.allPosts);
   renderPostGrid();
 }
 
 // ─── Card Rendering ───────────────────────────────────────────────────────────
 
 /**
- * Build the HTML for a single post card.
- *
- * @param {Object} post
- * @returns {string} HTML string
+ * Build HTML for a single post card.
+ * Phase 2B: adds a "Featured" badge and updatedDate if present.
  */
 function buildPostCard(post) {
   const postUrl = `${BLOG_CONFIG.postsDir}${post.slug}.html`;
+
   const tagsHtml = post.tags
     .map(tag => `<span class="post-card__tag">${tag}</span>`)
     .join('');
 
+  // Featured badge — only shown when post.featured === true
+  const featuredBadge = post.featured
+    ? `<span class="post-card__featured-badge" aria-label="Featured post">★ Featured</span>`
+    : '';
+
+  // Updated date line — only shown when post.updatedDate exists
+  const updatedHtml = post.updatedDate
+    ? `<span class="post-card__updated">
+         Updated <time datetime="${post.updatedDate}">${formatDate(post.updatedDate)}</time>
+       </span>`
+    : '';
+
   return `
-    <article class="post-card" data-slug="${post.slug}">
+    <article class="post-card ${post.featured ? 'post-card--featured' : ''}" data-slug="${post.slug}">
       <a href="${postUrl}" class="post-card__thumbnail-link" aria-label="Read: ${post.title}">
         <div class="post-card__thumbnail">
+          ${featuredBadge}
           <img
             src="${post.thumbnail}"
             alt="${post.title} thumbnail"
             loading="lazy"
+            decoding="async"
             onerror="this.style.display='none'"
           />
         </div>
@@ -188,9 +199,12 @@ function buildPostCard(post) {
         </h2>
         <p class="post-card__excerpt">${post.excerpt}</p>
         <footer class="post-card__footer">
-          <time class="post-card__date" datetime="${post.publishDate}">
-            ${formatDate(post.publishDate)}
-          </time>
+          <div class="post-card__dates">
+            <time class="post-card__date" datetime="${post.publishDate}">
+              ${formatDate(post.publishDate)}
+            </time>
+            ${updatedHtml}
+          </div>
           <a href="${postUrl}" class="post-card__read-link" aria-hidden="true">
             Read post →
           </a>
@@ -202,7 +216,6 @@ function buildPostCard(post) {
 
 /**
  * Render the post grid and "Load More" button.
- * Only renders up to state.visibleCount posts from state.filteredPosts.
  */
 function renderPostGrid() {
   const grid = document.querySelector('[data-post-grid]');
@@ -215,25 +228,14 @@ function renderPostGrid() {
   const hasMore = state.visibleCount < state.filteredPosts.length;
   const isEmpty = state.filteredPosts.length === 0;
 
-  // Render cards (or clear the grid)
   grid.innerHTML = slice.map(buildPostCard).join('');
 
-  // Show / hide the "no posts" empty state
-  if (emptyState) {
-    emptyState.hidden = !isEmpty;
-  }
-
-  // Show / hide Load More button
-  if (loadMoreBtn) {
-    loadMoreBtn.hidden = !hasMore;
-  }
+  if (emptyState) emptyState.hidden = !isEmpty;
+  if (loadMoreBtn) loadMoreBtn.hidden = !hasMore;
 }
 
 // ─── Load More ────────────────────────────────────────────────────────────────
 
-/**
- * Reveal the next page of posts when the user clicks "Load More".
- */
 function handleLoadMore() {
   state.visibleCount += BLOG_CONFIG.postsPerPage;
   renderPostGrid();
@@ -241,15 +243,10 @@ function handleLoadMore() {
 
 // ─── Initialisation ───────────────────────────────────────────────────────────
 
-/**
- * Bootstrap the blog on pages that include the post grid.
- * Exits silently if no grid container is found (e.g. on individual post pages).
- */
 async function initBlog() {
   const grid = document.querySelector('[data-post-grid]');
-  if (!grid) return; // Not on a page with a post listing
+  if (!grid) return;
 
-  // Show skeleton / loading state while fetching
   grid.setAttribute('aria-busy', 'true');
 
   try {
@@ -261,14 +258,12 @@ async function initBlog() {
     renderTagFilters(publishedPosts);
     renderPostGrid();
 
-    // Wire up Load More button
     const loadMoreBtn = document.querySelector('[data-load-more]');
     if (loadMoreBtn) {
       loadMoreBtn.addEventListener('click', handleLoadMore);
     }
   } catch (err) {
     console.error('[BuildAppsBlog] Could not load posts:', err);
-
     grid.innerHTML = `
       <p class="blog-error">
         Posts couldn't be loaded right now. Please try refreshing the page.
@@ -279,5 +274,4 @@ async function initBlog() {
   }
 }
 
-// Run as soon as the DOM is ready
 document.addEventListener('DOMContentLoaded', initBlog);
