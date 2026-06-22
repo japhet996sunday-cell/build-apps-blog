@@ -1,34 +1,60 @@
-<!DOCTYPE html>
+  <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Used by app.js to identify the current post for prev/next navigation -->
+  <!-- ── SEO ──────────────────────────────────────────────────────────────── -->
+  <title>Building a School Management Portal from Scratch — Build Apps Blog</title>
+  <meta name="description" content="How I built EduCore — a full CRUD school portal with student records, attendance tracking, and dark mode using only Bootstrap 5 and vanilla JavaScript." />
+  <link rel="canonical" href="https://YOUR_USERNAME.github.io/build-apps-blog/posts/school-portal-dashboard.html" />
+
+  <!-- Post slug — read by app.js for all post-page features -->
   <meta name="post-slug" content="school-portal-dashboard" />
 
-  <title>Building a School Management Portal from Scratch — Build Apps Blog</title>
-  <meta name="description" content="A step-by-step walkthrough of how I built EduCore — a full CRUD school portal with student records, attendance tracking, and dark mode using only Bootstrap 5 and vanilla JS." />
+  <!-- ── Favicons ─────────────────────────────────────────────────────────── -->
+  <link rel="icon" href="../assets/images/favicon.ico" sizes="any" />
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- ── Open Graph ───────────────────────────────────────────────────────── -->
+  <meta property="og:type"                content="article" />
+  <meta property="og:url"                 content="https://YOUR_USERNAME.github.io/build-apps-blog/posts/school-portal-dashboard.html" />
+  <meta property="og:site_name"           content="Build Apps Blog" />
+  <meta property="og:title"             content="Building a School Management Portal from Scratch" />
+  <meta property="og:description"       content="Full CRUD, 7 localStorage keys, dark mode — built in three files with Bootstrap 5 and vanilla JS." />
+  <meta property="og:image"             content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/school-portal.png" />
+  <meta property="og:image:width"        content="1200" />
+  <meta property="og:image:height"       content="630" />
+  <meta property="article:published_time" content="2026-06-23T00:00:00Z" />
+  <meta property="article:author"         content="Japhet Sunday" />
+
+  <!-- ── Twitter Card ─────────────────────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Building a School Management Portal from Scratch" />
+  <meta name="twitter:description" content="Full CRUD, 7 localStorage keys, dark mode — built in three files with Bootstrap 5 and vanilla JS." />
+  <meta name="twitter:image"       content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/school-portal.png" />
+
+  <!-- ── Fonts & Styles ───────────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 
 <body class="post-page">
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ── Site Header ─────────────────────────────────────────────────────── -->
   <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a href="../index.html" class="site-logo">Build Apps Blog</a>
-
-      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
+      <a href="../index.html" class="site-logo" aria-label="Build Apps Blog — home">Build Apps Blog</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
       </button>
-
-      <nav class="site-nav" data-nav-menu aria-label="Main navigation">
-        <ul class="site-nav__list">
+      <nav id="site-nav" class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list" role="list">
           <li><a href="../index.html">Home</a></li>
           <li><a href="../index.html#posts">Posts</a></li>
           <li><a href="../index.html#about">About</a></li>
@@ -40,24 +66,21 @@
   <!-- ── Post Hero ───────────────────────────────────────────────────────── -->
   <div class="post-hero">
     <div class="container post-hero__inner">
-
       <nav class="post-breadcrumb" aria-label="Breadcrumb">
-        <ol>
+        <ol role="list">
           <li><a href="../index.html">Home</a></li>
           <li aria-hidden="true">›</li>
           <li aria-current="page">Building a School Management Portal</li>
         </ol>
       </nav>
 
-      <div class="post-hero__tags">
+      <div class="post-hero__tags" aria-label="Post tags">
         <span class="post-tag">JavaScript</span>
         <span class="post-tag">Bootstrap</span>
         <span class="post-tag">Projects</span>
       </div>
 
-      <h1 class="post-hero__title">
-        Building a School Management Portal from Scratch
-      </h1>
+      <h1 class="post-hero__title">Building a School Management Portal from Scratch</h1>
 
       <div class="post-hero__meta">
         <span class="post-hero__author">Japhet Sunday</span>
@@ -65,6 +88,13 @@
         <time class="post-hero__date" datetime="2026-06-23">June 23, 2026</time>
         <span class="post-hero__sep" aria-hidden="true">·</span>
         <span class="post-hero__read-time">10 min read</span>
+        <!--
+          [data-updated-date] stays hidden until app.js finds an updatedDate
+          in posts.json for this post and fills the <time> element.
+        -->
+        <span class="post-hero__updated" data-updated-date hidden>
+          Updated <time datetime=""></time>
+        </span>
       </div>
     </div>
   </div>
@@ -75,21 +105,22 @@
       <figure class="post-thumbnail-banner__figure">
         <img
           src="../assets/images/thumbnails/school-portal.png"
-          alt="EduCore school management portal screenshot"
+          alt="EduCore school management portal showing student registry and attendance tracker"
           class="post-thumbnail-banner__img"
-          width="1200"
-          height="630"
+          width="1200" height="630"
+          loading="eager" decoding="async"
         />
       </figure>
     </div>
   </div>
 
-  <!-- ── Article Body ────────────────────────────────────────────────────── -->
+  <!-- ── Article + Sidebar ───────────────────────────────────────────────── -->
   <main class="post-main" id="main-content">
     <div class="container">
       <div class="post-layout">
 
-        <article class="post-content" aria-label="Article body">
+        <!-- ── Article ─────────────────────────────────────────────────── -->
+        <article class="post-content" aria-label="Article: Building a School Management Portal from Scratch">
 
           <p class="post-lead">
             EduCore started as a capstone project idea: what would a real school
@@ -100,9 +131,7 @@
           </p>
 
           <h2>Scope of the Project</h2>
-          <p>
-            Before writing a line of code, I listed every feature the portal needed:
-          </p>
+          <p>Before writing a line of code, I listed every feature the portal needed:</p>
           <ul>
             <li>Student registry with add / edit / delete</li>
             <li>Teacher profiles and course assignments</li>
@@ -122,11 +151,13 @@
 
           <h2>The Seven localStorage Keys</h2>
           <p>
-            Each data domain gets its own key rather than one giant serialised object.
-            This makes reads faster and avoids overwriting unrelated data on every save:
+            Each data domain gets its own storage key rather than one giant
+            serialised object. This makes reads faster and avoids overwriting
+            unrelated data on every save:
           </p>
 
-          <pre><code>const KEYS = {
+          <pre><code>// constants.js — one place for all key names
+const KEYS = {
   students:   'educore_students',
   teachers:   'educore_teachers',
   courses:    'educore_courses',
@@ -138,50 +169,102 @@
 
           <h2>Dynamic Table Rendering</h2>
           <p>
-            Every table in the portal is rendered by a single <code>renderTable(key, columns)</code>
-            function. Pass it a storage key and a column config array; it reads from
-            <code>localStorage</code>, maps the data to rows, and injects the HTML.
-            Adding a new data domain means adding a key and a column config — not a
-            new rendering function.
+            Every table in the portal is rendered by a single
+            <code>renderTable(key, columns)</code> function. Pass it a storage key
+            and a column config array; it reads from <code>localStorage</code>,
+            maps the data to rows, and injects the HTML. Adding a new data domain
+            means adding one key and one column config — not a new render function.
           </p>
+
+          <pre><code>function renderTable(key, columns) {
+  const data = JSON.parse(localStorage.getItem(key)) ?? [];
+  const tbody = document.querySelector(`[data-table="${key}"] tbody`);
+
+  tbody.innerHTML = data.map(row => `
+    &lt;tr&gt;
+      ${columns.map(col => `&lt;td&gt;${row[col.field] ?? '—'}&lt;/td&gt;`).join('')}
+      &lt;td class="actions"&gt;
+        &lt;button onclick="editRow('${key}', '${row.id}')"&gt;Edit&lt;/button&gt;
+        &lt;button onclick="deleteRow('${key}', '${row.id}')"&gt;Delete&lt;/button&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  `).join('');
+}</code></pre>
 
           <h2>Dark Mode Without a Framework</h2>
           <p>
-            Dark mode is implemented with a single class on <code>&lt;body&gt;</code>:
-            <code>data-theme="dark"</code>. CSS custom properties do the rest — every
-            colour in the design system is defined as a variable, so the entire palette
-            swaps with one attribute change. The preference is written to
-            <code>localStorage</code> on toggle and read on page load before the first
-            paint to prevent a flash of light mode.
+            Dark mode is implemented with a single attribute on
+            <code>&lt;body&gt;</code>: <code>data-theme="dark"</code>. CSS custom
+            properties do the rest — every colour is defined as a variable, so the
+            entire palette swaps with one attribute change. The preference is read
+            before the first paint to prevent a flash of light mode.
           </p>
+
+          <pre><code>// Read preference synchronously, before any rendering
+const savedTheme = localStorage.getItem('educore_dark_mode');
+if (savedTheme === 'dark') {
+  document.body.setAttribute('data-theme', 'dark');
+}
+
+// Toggle on button click
+function toggleDarkMode() {
+  const isDark = document.body.getAttribute('data-theme') === 'dark';
+  document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  localStorage.setItem('educore_dark_mode', isDark ? 'light' : 'dark');
+}</code></pre>
 
           <h2>Seed Data Strategy</h2>
           <p>
             On first load, if <code>localStorage</code> is empty, the app runs a
             <code>seedDatabase()</code> function that populates all seven keys with
-            realistic-looking Nigerian school data: proper names, subject combinations
-            that match real curricula, and plausible attendance records. This makes
-            every demo feel live rather than empty.
+            realistic-looking Nigerian school data. This makes every demo feel live
+            rather than empty — critical when showing the project to a recruiter.
           </p>
 
           <h2>Lessons Learned</h2>
           <p>
-            The biggest surprise was how far a disciplined module-like structure gets
-            you in vanilla JS. The second biggest was that Bootstrap's utility classes
-            handle 80% of layout needs — you only write custom CSS for the 20% that
-            requires your brand's visual identity.
+            The biggest surprise: how far a disciplined module-like structure takes
+            you in vanilla JS. The second biggest: Bootstrap's utilities handle 80%
+            of layout needs — you only write custom CSS for your brand's 20%.
           </p>
+
+          <!-- ── Author Block ──────────────────────────────────────────────
+               Hidden by default. app.js reads the author object from posts.json
+               and populates this section with name, bio, avatar, and links.
+          ─────────────────────────────────────────────────────────────── -->
+          <section class="author-section" aria-label="About the author">
+            <div data-author-block hidden></div>
+          </section>
 
         </article>
 
+        <!-- ── Sidebar (Table of Contents) ─────────────────────────────── -->
         <aside class="post-sidebar" aria-label="Post sidebar">
-          <!-- Phase 3: Table of Contents -->
+          <div class="toc-widget" aria-label="Table of contents">
+            <div class="toc-widget__header">
+              <p class="toc-widget__title">On this page</p>
+              <button class="toc-toggle" data-toc-toggle aria-expanded="true" aria-controls="toc-body">
+                ▲ Hide
+              </button>
+            </div>
+            <div id="toc-body" data-toc-body class="is-open">
+              <nav data-toc-target aria-label="Article headings"></nav>
+            </div>
+          </div>
         </aside>
-      </div>
-    </div>
+
+      </div><!-- /.post-layout -->
+    </div><!-- /.container -->
   </main>
 
-  <!-- ── Previous / Next Navigation ─────────────────────────────────────── -->
+  <!-- ── Related Posts ───────────────────────────────────────────────────── -->
+  <section class="related-posts-section" data-related-posts hidden aria-label="Related posts">
+    <div class="container">
+      <div class="rp-inner"></div>
+    </div>
+  </section>
+
+  <!-- ── Prev / Next Navigation ──────────────────────────────────────────── -->
   <nav class="post-pagination" aria-label="Post navigation">
     <div class="container post-pagination__inner">
       <a href="#" class="post-pagination__item post-pagination__item--prev" data-prev-post hidden>
@@ -199,15 +282,16 @@
   <footer class="site-footer">
     <div class="container site-footer__inner">
       <p class="site-footer__copy">
-        © <span id="footer-year"></span> Build Apps Blog · Built with pure HTML, CSS &amp; JS
+        © <span id="footer-year"></span> Build Apps Blog ·
+        Built with pure HTML, CSS &amp; JS by
+        <a href="https://github.com/japhet996sunday-cell" rel="noopener noreferrer">Japhet Sunday</a>
       </p>
     </div>
   </footer>
 
-  <script src="../assets/js/app.js"></script>
-  <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-  </script>
+  <script src="../assets/js/app.js" defer></script>
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 
 </body>
 </html>
+   
