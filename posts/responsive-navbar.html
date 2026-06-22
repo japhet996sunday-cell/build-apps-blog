@@ -4,31 +4,57 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Used by app.js to identify the current post for prev/next navigation -->
+  <!-- ── SEO ──────────────────────────────────────────────────────────────── -->
+  <title>Crafting a Responsive Navbar That Actually Works — Build Apps Blog</title>
+  <meta name="description" content="Hamburger menus, scroll effects, active-link tracking with IntersectionObserver — build a production-ready navigation component without a framework." />
+  <link rel="canonical" href="https://YOUR_USERNAME.github.io/build-apps-blog/posts/responsive-navbar.html" />
+
+  <!-- Post slug — read by app.js for all post-page features -->
   <meta name="post-slug" content="responsive-navbar" />
 
-  <title>Crafting a Responsive Navbar That Actually Works — Build Apps Blog</title>
-  <meta name="description" content="Hamburger menus, scroll effects, active-link tracking with IntersectionObserver — everything you need to build a production-ready navigation component without a framework." />
+  <!-- ── Favicons ─────────────────────────────────────────────────────────── -->
+  <link rel="icon" href="../assets/images/favicon.ico" sizes="any" />
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" />
 
-  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- ── Open Graph ───────────────────────────────────────────────────────── -->
+  <meta property="og:type"                content="article" />
+  <meta property="og:url"                 content="https://YOUR_USERNAME.github.io/build-apps-blog/posts/responsive-navbar.html" />
+  <meta property="og:site_name"           content="Build Apps Blog" />
+  <meta property="og:title"             content="Crafting a Responsive Navbar That Actually Works" />
+  <meta property="og:description"       content="Hamburger toggle, scroll awareness, IntersectionObserver active links — the complete navbar tutorial." />
+  <meta property="og:image"             content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/responsive-navbar.png" />
+  <meta property="og:image:width"        content="1200" />
+  <meta property="og:image:height"       content="630" />
+  <meta property="article:published_time" content="2026-06-30T00:00:00Z" />
+  <meta property="article:author"         content="Japhet Sunday" />
+
+  <!-- ── Twitter Card ─────────────────────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Crafting a Responsive Navbar That Actually Works" />
+  <meta name="twitter:description" content="Hamburger toggle, scroll awareness, IntersectionObserver active links — the complete navbar tutorial." />
+  <meta name="twitter:image"       content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/responsive-navbar.png" />
+
+  <!-- ── Fonts & Styles ───────────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 
 <body class="post-page">
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ── Site Header ─────────────────────────────────────────────────────── -->
   <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a href="../index.html" class="site-logo">Build Apps Blog</a>
-
-      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
+      <a href="../index.html" class="site-logo" aria-label="Build Apps Blog — home">Build Apps Blog</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
       </button>
-
-      <nav class="site-nav" data-nav-menu aria-label="Main navigation">
-        <ul class="site-nav__list">
+      <nav id="site-nav" class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list" role="list">
           <li><a href="../index.html">Home</a></li>
           <li><a href="../index.html#posts">Posts</a></li>
           <li><a href="../index.html#about">About</a></li>
@@ -40,24 +66,21 @@
   <!-- ── Post Hero ───────────────────────────────────────────────────────── -->
   <div class="post-hero">
     <div class="container post-hero__inner">
-
       <nav class="post-breadcrumb" aria-label="Breadcrumb">
-        <ol>
+        <ol role="list">
           <li><a href="../index.html">Home</a></li>
           <li aria-hidden="true">›</li>
           <li aria-current="page">Crafting a Responsive Navbar</li>
         </ol>
       </nav>
 
-      <div class="post-hero__tags">
+      <div class="post-hero__tags" aria-label="Post tags">
         <span class="post-tag">CSS</span>
         <span class="post-tag">JavaScript</span>
         <span class="post-tag">UI Components</span>
       </div>
 
-      <h1 class="post-hero__title">
-        Crafting a Responsive Navbar That Actually Works
-      </h1>
+      <h1 class="post-hero__title">Crafting a Responsive Navbar That Actually Works</h1>
 
       <div class="post-hero__meta">
         <span class="post-hero__author">Japhet Sunday</span>
@@ -65,6 +88,13 @@
         <time class="post-hero__date" datetime="2026-06-30">June 30, 2026</time>
         <span class="post-hero__sep" aria-hidden="true">·</span>
         <span class="post-hero__read-time">7 min read</span>
+        <!--
+          [data-updated-date] stays hidden until app.js finds an updatedDate
+          for this post in posts.json and fills the <time> element.
+        -->
+        <span class="post-hero__updated" data-updated-date hidden>
+          Updated <time datetime=""></time>
+        </span>
       </div>
     </div>
   </div>
@@ -75,21 +105,22 @@
       <figure class="post-thumbnail-banner__figure">
         <img
           src="../assets/images/thumbnails/responsive-navbar.png"
-          alt="Responsive navbar component demo"
+          alt="Responsive navbar showing hamburger menu on mobile and full nav on desktop"
           class="post-thumbnail-banner__img"
-          width="1200"
-          height="630"
+          width="1200" height="630"
+          loading="eager" decoding="async"
         />
       </figure>
     </div>
   </div>
 
-  <!-- ── Article Body ────────────────────────────────────────────────────── -->
+  <!-- ── Article + Sidebar ───────────────────────────────────────────────── -->
   <main class="post-main" id="main-content">
     <div class="container">
       <div class="post-layout">
 
-        <article class="post-content" aria-label="Article body">
+        <!-- ── Article ─────────────────────────────────────────────────── -->
+        <article class="post-content" aria-label="Article: Crafting a Responsive Navbar That Actually Works">
 
           <p class="post-lead">
             Navigation is one of those components that every tutorial shows wrong —
@@ -101,11 +132,9 @@
           <h2>The HTML Foundation</h2>
           <p>
             Start with a <code>&lt;header&gt;</code> containing a logo link, a toggle
-            button, and a <code>&lt;nav&gt;</code>. The toggle button needs
-            <code>aria-expanded</code> to communicate open/closed state to screen
-            readers. The nav itself should have an <code>aria-label</code> of
-            <code>"Main navigation"</code> to distinguish it from other nav landmarks
-            on the page.
+            button, and a <code>&lt;nav&gt;</code>. The toggle needs
+            <code>aria-expanded</code> to communicate open/closed state to screen readers,
+            and <code>aria-controls</code> pointing to the nav's <code>id</code>.
           </p>
 
           <pre><code>&lt;header class="site-header" data-site-header&gt;
@@ -115,15 +144,16 @@
     class="nav-toggle"
     data-nav-toggle
     aria-expanded="false"
+    aria-controls="site-nav"
     aria-label="Toggle navigation"
   &gt;
-    &lt;span&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;/span&gt;
-    &lt;span&gt;&lt;/span&gt;
+    &lt;span aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span aria-hidden="true"&gt;&lt;/span&gt;
+    &lt;span aria-hidden="true"&gt;&lt;/span&gt;
   &lt;/button&gt;
 
-  &lt;nav class="site-nav" data-nav-menu aria-label="Main navigation"&gt;
-    &lt;ul&gt;
+  &lt;nav id="site-nav" class="site-nav" aria-label="Main navigation"&gt;
+    &lt;ul role="list"&gt;
       &lt;li&gt;&lt;a href="#about"&gt;About&lt;/a&gt;&lt;/li&gt;
       &lt;li&gt;&lt;a href="#projects"&gt;Projects&lt;/a&gt;&lt;/li&gt;
     &lt;/ul&gt;
@@ -132,14 +162,14 @@
 
           <h2>The Hamburger Toggle</h2>
           <p>
-            Three empty <code>&lt;span&gt;</code> elements styled as bars are the
-            hamburger icon. CSS transforms animate them into an × when
-            <code>aria-expanded="true"</code> is set. Using an attribute selector
-            keeps the animation tied to the actual accessible state — you can't have
-            one without the other.
+            Three empty <code>&lt;span&gt;</code> elements become the hamburger bars.
+            CSS transforms animate them into an × when
+            <code>aria-expanded="true"</code> is set. Tying the animation to the
+            ARIA attribute means the visual state and the accessible state can never
+            get out of sync.
           </p>
 
-          <pre><code>/* Default: three bars */
+          <pre><code>/* Three bars */
 .nav-toggle span {
   display: block;
   width: 22px;
@@ -148,33 +178,48 @@
   transition: transform 0.25s, opacity 0.25s;
 }
 
-/* Open state: top and bottom bars form an × */
+/* Open state: animate into × */
 .nav-toggle[aria-expanded="true"] span:first-child {
   transform: translateY(8px) rotate(45deg);
 }
 .nav-toggle[aria-expanded="true"] span:nth-child(2) {
   opacity: 0;
+  transform: scaleX(0);
 }
 .nav-toggle[aria-expanded="true"] span:last-child {
   transform: translateY(-8px) rotate(-45deg);
 }</code></pre>
 
-          <h2>Scroll-Aware Behaviour</h2>
+          <h2>Scroll-Aware Header</h2>
           <p>
-            A header that stays identical while the user scrolls is a missed
-            opportunity. Two scroll states are worth implementing: <em>scrolled</em>
-            (adds a backdrop blur and shadow once the user passes 60px) and
-            <em>hidden</em> (slides the header up when scrolling down past the fold,
-            reveals it when scrolling back up). The hidden state saves vertical space
-            on mobile without removing navigation permanently.
+            Two scroll states make a header feel polished. <em>Scrolled</em> adds a
+            backdrop and shadow after 60px. <em>Hidden</em> slides the header off-screen
+            when scrolling down past the fold, and brings it back on scroll-up.
           </p>
+
+          <pre><code>let lastScrollY = window.scrollY;
+
+window.addEventListener('scroll', () => {
+  const y = window.scrollY;
+
+  // Add glass effect after 60px
+  header.classList.toggle('is-scrolled', y > 60);
+
+  // Hide on scroll-down (past the fold), show on scroll-up
+  if (y > 200) {
+    header.classList.toggle('is-hidden', y > lastScrollY);
+  } else {
+    header.classList.remove('is-hidden');
+  }
+
+  lastScrollY = y;
+}, { passive: true }); // passive: true = no scroll jank</code></pre>
 
           <h2>Active Link Tracking with IntersectionObserver</h2>
           <p>
-            The classic approach — comparing <code>window.scrollY</code> to section
-            offsets on every scroll event — is both imprecise and expensive.
-            <code>IntersectionObserver</code> is more elegant: observe each section,
-            and when one enters the viewport, mark its corresponding nav link as active.
+            Comparing <code>window.scrollY</code> to section offsets on every scroll
+            event is imprecise and expensive. <code>IntersectionObserver</code> is better:
+            observe each section, and when one enters the target zone, mark its nav link active.
           </p>
 
           <pre><code>const sections = document.querySelectorAll('section[id]');
@@ -183,52 +228,100 @@ const navLinks = document.querySelectorAll('.site-nav a[href^="#"]');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (!entry.isIntersecting) return;
+
+    // Deactivate all, then activate the matching link
     navLinks.forEach(link => {
-      link.classList.toggle(
-        'is-active',
-        link.getAttribute('href') === `#${entry.target.id}`
-      );
-      link.setAttribute('aria-current',
-        link.getAttribute('href') === `#${entry.target.id}` ? 'true' : 'false'
-      );
+      const isActive = link.getAttribute('href') === `#${entry.target.id}`;
+      link.classList.toggle('is-active', isActive);
+      link.setAttribute('aria-current', isActive ? 'true' : 'false');
     });
   });
-}, { rootMargin: '-40% 0px -55% 0px' });
+}, {
+  // Only trigger when the section is in the middle 5% of the viewport
+  rootMargin: '-40% 0px -55% 0px',
+});
 
 sections.forEach(section => observer.observe(section));</code></pre>
 
+          <h3>Why Those rootMargin Values?</h3>
           <p>
-            The <code>rootMargin</code> shrinks the "active" detection zone to the
-            middle 5% of the viewport, so a section is only marked active when it's
-            clearly the dominant content on screen — not just when its top edge
-            crosses the viewport.
+            <code>-40% 0px -55% 0px</code> shrinks the detection zone to a 5% band
+            in the middle of the viewport. A section only becomes "active" when it's
+            clearly dominant on screen — not merely when its top pixel enters the
+            viewport, which would mark the next section active prematurely.
           </p>
 
-          <h2>Keyboard &amp; Focus Concerns</h2>
+          <h2>Keyboard &amp; Focus Management</h2>
           <p>
-            When the mobile menu closes, return focus to the toggle button so keyboard
-            users aren't stranded. If the menu contains many links, trap focus inside
-            it while it's open — <code>Tab</code> should cycle through the menu items,
-            not the content behind the overlay.
+            When the mobile menu closes, return focus to the toggle button. If the
+            menu is an overlay covering the full screen, trap focus inside it — the
+            <code>Tab</code> key should cycle through the menu items, not invisible
+            links behind the overlay.
           </p>
+
+          <pre><code>function closeNav() {
+  nav.classList.remove('is-open');
+  toggle.setAttribute('aria-expanded', 'false');
+  document.body.classList.remove('nav-open');
+  toggle.focus(); // Return focus to the button that opened the menu
+}
+
+// Close on Escape key
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && nav.classList.contains('is-open')) {
+    closeNav();
+  }
+});</code></pre>
 
           <h2>The Body Scroll Lock</h2>
           <p>
-            On mobile, add <code>overflow: hidden</code> to <code>&lt;body&gt;</code>
-            while the nav is open. Without this, the page scrolls behind the overlay
-            — disorienting and easy to miss in desktop testing.
+            Without it, the page scrolls behind the mobile overlay — disorienting
+            and always missed in desktop testing:
           </p>
+
+          <pre><code>/* style.css */
+body.nav-open { overflow: hidden; }
+
+/* JavaScript — toggle the class on open/close */
+document.body.classList.toggle('nav-open', isOpen);</code></pre>
+
+          <!-- ── Author Block ──────────────────────────────────────────────
+               Hidden by default. app.js reads the author object from posts.json
+               and populates this section with name, bio, avatar, and social links.
+          ─────────────────────────────────────────────────────────────── -->
+          <section class="author-section" aria-label="About the author">
+            <div data-author-block hidden></div>
+          </section>
 
         </article>
 
+        <!-- ── Sidebar (Table of Contents) ─────────────────────────────── -->
         <aside class="post-sidebar" aria-label="Post sidebar">
-          <!-- Phase 3: Table of Contents -->
+          <div class="toc-widget" aria-label="Table of contents">
+            <div class="toc-widget__header">
+              <p class="toc-widget__title">On this page</p>
+              <button class="toc-toggle" data-toc-toggle aria-expanded="true" aria-controls="toc-body">
+                ▲ Hide
+              </button>
+            </div>
+            <div id="toc-body" data-toc-body class="is-open">
+              <nav data-toc-target aria-label="Article headings"></nav>
+            </div>
+          </div>
         </aside>
-      </div>
-    </div>
+
+      </div><!-- /.post-layout -->
+    </div><!-- /.container -->
   </main>
 
-  <!-- ── Previous / Next Navigation ─────────────────────────────────────── -->
+  <!-- ── Related Posts ───────────────────────────────────────────────────── -->
+  <section class="related-posts-section" data-related-posts hidden aria-label="Related posts">
+    <div class="container">
+      <div class="rp-inner"></div>
+    </div>
+  </section>
+
+  <!-- ── Prev / Next Navigation ──────────────────────────────────────────── -->
   <nav class="post-pagination" aria-label="Post navigation">
     <div class="container post-pagination__inner">
       <a href="#" class="post-pagination__item post-pagination__item--prev" data-prev-post hidden>
@@ -246,15 +339,15 @@ sections.forEach(section => observer.observe(section));</code></pre>
   <footer class="site-footer">
     <div class="container site-footer__inner">
       <p class="site-footer__copy">
-        © <span id="footer-year"></span> Build Apps Blog · Built with pure HTML, CSS &amp; JS
+        © <span id="footer-year"></span> Build Apps Blog ·
+        Built with pure HTML, CSS &amp; JS by
+        <a href="https://github.com/japhet996sunday-cell" rel="noopener noreferrer">Japhet Sunday</a>
       </p>
     </div>
   </footer>
 
-  <script src="../assets/js/app.js"></script>
-  <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-  </script>
+  <script src="../assets/js/app.js" defer></script>
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 
 </body>
 </html>
