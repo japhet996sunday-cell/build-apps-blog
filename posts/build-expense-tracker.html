@@ -4,34 +4,58 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Used by app.js to identify the current post for prev/next navigation -->
+  <!-- ── SEO ──────────────────────────────────────────────────────────────── -->
+  <title>How to Build an Expense Tracker with Vanilla JS — Build Apps Blog</title>
+  <meta name="description" content="Learn how to build a real-world expense tracker using HTML, CSS, and JavaScript — with localStorage persistence, category filters, and a live Chart.js summary." />
+  <link rel="canonical" href="https://YOUR_USERNAME.github.io/build-apps-blog/posts/build-expense-tracker.html" />
+
+  <!-- Post slug — read by app.js for prev/next navigation and all post features -->
   <meta name="post-slug" content="build-expense-tracker" />
 
-  <title>How to Build an Expense Tracker with Vanilla JS — Build Apps Blog</title>
-  <meta name="description" content="Learn how to build a real-world expense tracker using HTML, CSS, and JavaScript — complete with localStorage persistence, category filters, and a live Chart.js summary." />
+  <!-- ── Favicons ─────────────────────────────────────────────────────────── -->
+  <link rel="icon" href="../assets/images/favicon.ico" sizes="any" />
+  <link rel="icon" href="../assets/images/favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="../assets/images/apple-touch-icon.png" />
 
-  <!-- Design system (Phase 1) -->
-  <link rel="stylesheet" href="../assets/css/style.css" />
+  <!-- ── Open Graph ───────────────────────────────────────────────────────── -->
+  <meta property="og:type"                content="article" />
+  <meta property="og:url"                 content="https://YOUR_USERNAME.github.io/build-apps-blog/posts/build-expense-tracker.html" />
+  <meta property="og:site_name"           content="Build Apps Blog" />
+  <meta property="og:title"              content="How to Build an Expense Tracker with Vanilla JS" />
+  <meta property="og:description"        content="localStorage persistence, category filters, Chart.js — build a real expense tracker with zero dependencies." />
+  <meta property="og:image"              content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/expense-tracker.png" />
+  <meta property="og:image:width"        content="1200" />
+  <meta property="og:image:height"       content="630" />
+  <meta property="article:published_time" content="2026-06-16T00:00:00Z" />
+  <meta property="article:modified_time"  content="2026-06-21T00:00:00Z" />
+  <meta property="article:author"         content="Japhet Sunday" />
 
-  <!-- Google Fonts: DM Serif Display + Inter (mirrors Phase 1 design system) -->
+  <!-- ── Twitter Card ─────────────────────────────────────────────────────── -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="How to Build an Expense Tracker with Vanilla JS" />
+  <meta name="twitter:description" content="localStorage persistence, category filters, Chart.js — build a real expense tracker with zero dependencies." />
+  <meta name="twitter:image"       content="https://YOUR_USERNAME.github.io/build-apps-blog/assets/images/thumbnails/expense-tracker.png" />
+
+  <!-- ── Fonts & Styles ───────────────────────────────────────────────────── -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../assets/css/style.css" />
 </head>
 
 <body class="post-page">
 
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
   <!-- ── Site Header ─────────────────────────────────────────────────────── -->
   <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a href="../index.html" class="site-logo">Build Apps Blog</a>
-
-      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-label="Toggle navigation">
-        <span></span><span></span><span></span>
+      <a href="../index.html" class="site-logo" aria-label="Build Apps Blog — home">Build Apps Blog</a>
+      <button class="nav-toggle" data-nav-toggle aria-expanded="false" aria-controls="site-nav" aria-label="Toggle navigation">
+        <span aria-hidden="true"></span><span aria-hidden="true"></span><span aria-hidden="true"></span>
       </button>
-
-      <nav class="site-nav" data-nav-menu aria-label="Main navigation">
-        <ul class="site-nav__list">
+      <nav id="site-nav" class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list" role="list">
           <li><a href="../index.html">Home</a></li>
           <li><a href="../index.html#posts">Posts</a></li>
           <li><a href="../index.html#about">About</a></li>
@@ -43,35 +67,35 @@
   <!-- ── Post Hero ───────────────────────────────────────────────────────── -->
   <div class="post-hero">
     <div class="container post-hero__inner">
-
-      <!-- Breadcrumb -->
       <nav class="post-breadcrumb" aria-label="Breadcrumb">
-        <ol>
+        <ol role="list">
           <li><a href="../index.html">Home</a></li>
           <li aria-hidden="true">›</li>
           <li aria-current="page">How to Build an Expense Tracker</li>
         </ol>
       </nav>
 
-      <!-- Tags -->
-      <div class="post-hero__tags">
+      <div class="post-hero__tags" aria-label="Post tags">
         <span class="post-tag">JavaScript</span>
         <span class="post-tag">Projects</span>
         <span class="post-tag">CSS</span>
       </div>
 
-      <!-- Title -->
-      <h1 class="post-hero__title">
-        How to Build an Expense Tracker with Vanilla JS
-      </h1>
+      <h1 class="post-hero__title">How to Build an Expense Tracker with Vanilla JS</h1>
 
-      <!-- Meta -->
       <div class="post-hero__meta">
         <span class="post-hero__author">Japhet Sunday</span>
         <span class="post-hero__sep" aria-hidden="true">·</span>
         <time class="post-hero__date" datetime="2026-06-16">June 16, 2026</time>
         <span class="post-hero__sep" aria-hidden="true">·</span>
         <span class="post-hero__read-time">8 min read</span>
+        <!--
+          [data-updated-date] is hidden by default.
+          app.js reveals it and fills the <time> if updatedDate exists in posts.json.
+        -->
+        <span class="post-hero__updated" data-updated-date hidden>
+          Updated <time datetime=""></time>
+        </span>
       </div>
     </div>
   </div>
@@ -82,24 +106,22 @@
       <figure class="post-thumbnail-banner__figure">
         <img
           src="../assets/images/thumbnails/expense-tracker.png"
-          alt="BudgetBuddy expense tracker app screenshot"
+          alt="BudgetBuddy expense tracker showing a doughnut chart and transaction list"
           class="post-thumbnail-banner__img"
-          width="1200"
-          height="630"
+          width="1200" height="630"
+          loading="eager" decoding="async"
         />
-        <!-- Remove the img tag above and use the div below if no image is ready yet -->
-        <!-- <div class="post-thumbnail-banner__placeholder" aria-hidden="true"></div> -->
       </figure>
     </div>
   </div>
 
-  <!-- ── Article Body ────────────────────────────────────────────────────── -->
+  <!-- ── Article + Sidebar ───────────────────────────────────────────────── -->
   <main class="post-main" id="main-content">
     <div class="container">
       <div class="post-layout">
 
-        <!-- Article content -->
-        <article class="post-content" aria-label="Article body">
+        <!-- ── Article ─────────────────────────────────────────────────── -->
+        <article class="post-content" aria-label="Article: How to Build an Expense Tracker with Vanilla JS">
 
           <p class="post-lead">
             An expense tracker is one of those projects that sounds simple but hides
@@ -109,9 +131,7 @@
           </p>
 
           <h2>What We're Building</h2>
-          <p>
-            BudgetBuddy is a single-page expense tracker. The key features are:
-          </p>
+          <p>BudgetBuddy is a single-page expense tracker. The key features are:</p>
           <ul>
             <li>Add, edit, and delete transactions with a category label</li>
             <li>Persistent storage via <code>localStorage</code></li>
@@ -138,8 +158,8 @@
           <h2>The Storage Module</h2>
           <p>
             The golden rule of <code>storage.js</code>: it is the only file that touches
-            <code>localStorage</code>. Every other module asks storage.js for data; none
-            of them read from <code>window.localStorage</code> directly.
+            <code>localStorage</code>. Every other module asks it for data; none read
+            from <code>window.localStorage</code> directly.
           </p>
 
           <pre><code>// storage.js
@@ -166,10 +186,27 @@ export function saveTransactions(transactions) {
           <h2>Chart.js Integration</h2>
           <p>
             Load Chart.js from a CDN and initialise the doughnut chart once on page
-            load. When the transaction list changes, call <code>chart.data.datasets[0].data = newData</code>
-            and <code>chart.update()</code> — never destroy and recreate the chart instance,
+            load. When the transaction list changes, update the data arrays and call
+            <code>chart.update()</code> — never destroy and recreate the chart instance,
             as that causes a visible flash.
           </p>
+
+          <h3>Setting Up the Canvas</h3>
+          <pre><code>// In your HTML: &lt;canvas id="spending-chart"&gt;&lt;/canvas&gt;
+
+const ctx = document.getElementById('spending-chart').getContext('2d');
+const chart = new Chart(ctx, {
+  type: 'doughnut',
+  data: { labels: [], datasets: [{ data: [], backgroundColor: [] }] },
+  options: { responsive: true, maintainAspectRatio: false }
+});</code></pre>
+
+          <h3>Updating Without Flashing</h3>
+          <pre><code>function updateChart(categoryTotals) {
+  chart.data.labels = Object.keys(categoryTotals);
+  chart.data.datasets[0].data = Object.values(categoryTotals);
+  chart.update(); // redraws smoothly — no destroy/recreate
+}</code></pre>
 
           <h2>The ES Module Gotcha</h2>
           <p>
@@ -181,38 +218,70 @@ export function saveTransactions(transactions) {
 
           <h2>What's Next</h2>
           <p>
-            In a future post I'll show how to add a recurring transactions feature —
-            debits or credits that repeat on a schedule and self-insert into the
-            transaction list on the right date, without any server involvement.
+            In a future post I'll show how to add recurring transactions — debits or
+            credits that repeat on a schedule and self-insert on the right date,
+            without any server involvement.
           </p>
+
+          <!-- ── Author Block ─────────────────────────────────────────────
+               Hidden by default. app.js reads the author from posts.json
+               and injects the full card here.
+          ─────────────────────────────────────────────────────────────── -->
+          <section class="author-section" aria-label="About the author">
+            <div data-author-block hidden></div>
+          </section>
 
         </article>
 
-        <!-- Optional sidebar space (for future Table of Contents, etc.) -->
+        <!-- ── Sidebar (Table of Contents) ─────────────────────────────── -->
         <aside class="post-sidebar" aria-label="Post sidebar">
-          <!-- Phase 3: Table of Contents auto-generated from headings -->
+          <div class="toc-widget" aria-label="Table of contents">
+            <div class="toc-widget__header">
+              <p class="toc-widget__title">On this page</p>
+              <!--
+                [data-toc-toggle] is the collapse button on mobile.
+                app.js sets aria-expanded on click.
+              -->
+              <button class="toc-toggle" data-toc-toggle aria-expanded="true" aria-controls="toc-body">
+                ▲ Hide
+              </button>
+            </div>
+            <!--
+              [data-toc-body] wraps the list so it can be hidden on mobile.
+              [data-toc-target] is where app.js injects the generated <ol>.
+            -->
+            <div id="toc-body" data-toc-body class="is-open">
+              <nav data-toc-target aria-label="Article headings"></nav>
+            </div>
+          </div>
         </aside>
 
       </div><!-- /.post-layout -->
     </div><!-- /.container -->
   </main>
 
-  <!-- ── Previous / Next Navigation ─────────────────────────────────────── -->
+  <!-- ── Related Posts ───────────────────────────────────────────────────── -->
+  <!--
+    Hidden by default. app.js fetches posts.json, scores posts by shared tags,
+    and injects up to 3 cards. Falls back to recent posts if no tag match.
+  -->
+  <section class="related-posts-section" data-related-posts hidden aria-label="Related posts">
+    <div class="container">
+      <div class="rp-inner"></div>
+    </div>
+  </section>
+
+  <!-- ── Prev / Next Navigation ──────────────────────────────────────────── -->
   <nav class="post-pagination" aria-label="Post navigation">
     <div class="container post-pagination__inner">
-
-      <!-- Older post (previous in time) — populated by app.js -->
       <a href="#" class="post-pagination__item post-pagination__item--prev" data-prev-post hidden>
         <span class="post-pagination__direction">← Older post</span>
         <span class="post-pagination__label" data-nav-label></span>
       </a>
-
-      <!-- Newer post (next in time) — populated by app.js -->
       <a href="#" class="post-pagination__item post-pagination__item--next" data-next-post hidden>
         <span class="post-pagination__direction">Newer post →</span>
         <span class="post-pagination__label" data-nav-label></span>
       </a>
-
     </div>
   </nav>
 
@@ -220,16 +289,15 @@ export function saveTransactions(transactions) {
   <footer class="site-footer">
     <div class="container site-footer__inner">
       <p class="site-footer__copy">
-        © <span id="footer-year"></span> Build Apps Blog · Built with pure HTML, CSS &amp; JS
+        © <span id="footer-year"></span> Build Apps Blog ·
+        Built with pure HTML, CSS &amp; JS by
+        <a href="https://github.com/japhet996sunday-cell" rel="noopener noreferrer">Japhet Sunday</a>
       </p>
     </div>
   </footer>
 
-  <!-- Scripts -->
-  <script src="../assets/js/app.js"></script>
-  <script>
-    document.getElementById('footer-year').textContent = new Date().getFullYear();
-  </script>
+  <script src="../assets/js/app.js" defer></script>
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 
 </body>
 </html>
