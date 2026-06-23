@@ -1,463 +1,415 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
-
-<!--
-  Build Apps Blog — index.html
-  Phase 1: Homepage
-  
-  All content sections:
-  1. <header>  — Sticky navigation bar
-  2. <main>    — Hero, Search/Filter, Posts
-  3. <footer>  — Brand, links, copyright
-  
-  Scripts load at the bottom of <body> in dependency order:
-    1. app.js  — theme, nav, shared utilities
-    2. blog.js — mock data, rendering engine
--->
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Primary SEO meta -->
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       PRIMARY SEO
+       ═══════════════════════════════════════════════════════════════════════ -->
+
+  <title>Build Apps Blog — Frontend Tutorials by Japhet Sunday</title>
+
   <meta name="description"
-    content="Build Apps Blog — learn how to build real web applications with HTML, CSS, and JavaScript. Weekly step-by-step project tutorials for beginner to intermediate developers.">
-  <meta name="author" content="Build Apps Blog">
+        content="Learn how to build real-world web applications using HTML, CSS, and JavaScript through practical tutorials and project breakdowns. No frameworks. No fluff." />
 
-  <!-- Open Graph (social sharing) -->
-  <meta property="og:title"       content="Build Apps Blog – Learn How to Build Real Web Applications">
-  <meta property="og:description" content="Weekly tutorials on building real frontend applications — expense trackers, dashboards, chat apps, and more. No fluff. Just code.">
-  <meta property="og:type"        content="website">
-  <meta property="og:locale"      content="en_US">
+  <meta name="keywords"
+        content="HTML, CSS, JavaScript, frontend development, web tutorials, vanilla JS, beginner web dev, portfolio projects, expense tracker, school portal, responsive navbar" />
 
-  <!-- Twitter Card -->
-  <meta name="twitter:card"        content="summary_large_image">
-  <meta name="twitter:title"       content="Build Apps Blog">
-  <meta name="twitter:description" content="Learn to build real web applications with HTML, CSS, and JavaScript.">
+  <meta name="author" content="Japhet Sunday" />
 
-  <!-- Favicon (emoji SVG — Phase 2 adds a proper .ico) -->
-  <link rel="icon" type="image/svg+xml"
-    href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <!-- theme-color: tints the browser chrome on mobile (Chrome Android, Samsung Internet) -->
+  <meta name="theme-color" content="#4F6EF7" />
 
-  <!-- Page title -->
-  <title>Build Apps Blog – Learn How to Build Real Web Applications</title>
+  <!-- Canonical: tells search engines the authoritative URL for this page.
+       Prevents duplicate-content penalties if the page is ever linked with
+       trailing slashes or query strings. -->
+  <link rel="canonical" href="https://japhet996sunday-cell.github.io/build-apps-blog/" />
 
-  <!-- Google Fonts: DM Serif Display (headlines) + Inter (body) -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap"
-    rel="stylesheet">
 
-  <!-- Main stylesheet -->
-  <link rel="stylesheet" href="assets/css/style.css">
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FAVICONS
+       Three-tier strategy:
+         1. favicon.svg  — modern browsers; vector, scales to any size, supports
+                           prefers-color-scheme media query inside the SVG
+         2. favicon.ico  — legacy fallback (IE 11, old Safari); 16×16 + 32×32
+         3. apple-touch-icon.png — iOS/iPadOS home-screen shortcut (180×180)
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <link rel="icon"             href="assets/images/favicon.ico"         sizes="any" />
+  <link rel="icon"             href="assets/images/favicon.svg"         type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png" />
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       OPEN GRAPH
+       Controls preview cards in Facebook, LinkedIn, WhatsApp, Slack, Discord.
+       All og:image values must be absolute URLs — relative paths are ignored.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:site_name"   content="Build Apps Blog" />
+  <meta property="og:url"         content="https://japhet996sunday-cell.github.io/build-apps-blog/" />
+  <meta property="og:title"       content="Build Apps Blog — Frontend Tutorials by Japhet Sunday" />
+  <meta property="og:description" content="Practical tutorials on building real-world web apps with HTML, CSS, and vanilla JavaScript. No frameworks, no build tools — just working code." />
+  <meta property="og:image"       content="https://japhet996sunday-cell.github.io/build-apps-blog/assets/images/social-preview.png" />
+  <meta property="og:image:type"  content="image/png" />
+  <meta property="og:image:width"  content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt"   content="Build Apps Blog — frontend tutorials by Japhet Sunday" />
+  <meta property="og:locale"      content="en_US" />
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       TWITTER / X CARD
+       summary_large_image renders a full-width banner image in tweets.
+       twitter:image must be an absolute URL; recommended size: 1200×630.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="Build Apps Blog — Frontend Tutorials by Japhet Sunday" />
+  <meta name="twitter:description" content="Practical tutorials on building real-world web apps with HTML, CSS, and vanilla JavaScript. No frameworks. No fluff." />
+  <meta name="twitter:image"       content="https://japhet996sunday-cell.github.io/build-apps-blog/assets/images/social-preview.png" />
+  <meta name="twitter:image:alt"   content="Build Apps Blog — frontend tutorials by Japhet Sunday" />
+  <!--
+    OPTIONAL: Add your Twitter/X handle once you have one:
+    <meta name="twitter:site"    content="@YourHandle" />
+    <meta name="twitter:creator" content="@YourHandle" />
+  -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       JSON-LD STRUCTURED DATA (Schema.org)
+       Helps Google understand the page type and author.
+       The Blog type qualifies the homepage for rich results in Google Search.
+       Validate at: https://search.google.com/test/rich-results
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "Build Apps Blog",
+    "description": "Learn how to build real-world web applications using HTML, CSS, and JavaScript through practical tutorials and project breakdowns.",
+    "url": "https://japhet996sunday-cell.github.io/build-apps-blog/",
+    "inLanguage": "en-US",
+    "image": "https://japhet996sunday-cell.github.io/build-apps-blog/assets/images/social-preview.png",
+    "author": {
+      "@type": "Person",
+      "name": "Japhet Sunday",
+      "email": "japhet996sunday@gmail.com",
+      "url": "https://japhet996sunday-cell.github.io/japhet-portfolio/",
+      "sameAs": [
+        "https://github.com/japhet996sunday-cell",
+        "https://japhet996sunday-cell.github.io/japhet-portfolio/"
+      ]
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "Build Apps Blog",
+      "url": "https://japhet996sunday-cell.github.io/build-apps-blog/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://japhet996sunday-cell.github.io/build-apps-blog/assets/images/favicon.svg",
+        "width": 512,
+        "height": 512
+      }
+    }
+  }
+  </script>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       GOOGLE ANALYTICS — INACTIVE (placeholder ready to activate)
+
+       HOW TO ENABLE:
+         1. Go to https://analytics.google.com
+         2. Click "Start measuring" → create an Account and a Property
+         3. Choose platform: Web
+         4. Enter site URL: https://japhet996sunday-cell.github.io/build-apps-blog/
+         5. Copy your Measurement ID — it looks like: G-AB12CD34EF
+         6. In the TWO lines below that contain "G-XXXXXXXXXX",
+            replace G-XXXXXXXXXX with your real Measurement ID
+         7. Remove the opening  <!--  GA-START  and closing  GA-END  -->  lines
+            (the two comment delimiters), leaving the two <script> tags active
+
+       IMPORTANT: Do NOT change anything else. The two script tags must stay
+       adjacent and in this order for gtag to work correctly.
+
+       Test after enabling: open the live site, then check
+       Analytics → Reports → Realtime to confirm hits are arriving.
+  <!-- GA-START
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XXXXXXXXXX');
+  </script>
+  GA-END -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       FONTS
+       preconnect opens the TCP/TLS handshake to Google's font servers early,
+       before the browser has parsed the font <link> below, reducing latency.
+       display=swap prevents invisible text during font load (FOIT).
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" />
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       STYLESHEET
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <link rel="stylesheet" href="assets/css/style.css" />
+
 </head>
 
-<body data-page="home">
+<body>
 
-  <!-- ════════════════════════════════════════════════════════════
-       NAVIGATION
-       ════════════════════════════════════════════════════════════ -->
-  <header>
-    <nav class="nav" aria-label="Main navigation">
-      <div class="container">
-        <div class="nav__inner">
+  <!-- Skip-to-content: visually hidden until keyboard-focused.
+       First focusable element on every page — essential for keyboard users
+       and screen readers navigating past the site header. -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
 
-          <!-- Logo -->
-          <a href="index.html" class="nav__logo" aria-label="Build Apps Blog — go to homepage">
-            <span class="nav__logo-icon" aria-hidden="true">⚡</span>
-            <span class="nav__logo-text">Build Apps Blog</span>
-          </a>
 
-          <!-- Desktop navigation links -->
-          <ul class="nav__links" role="list">
-            <li>
-              <a href="index.html" class="nav__link nav__link--active"
-                aria-current="page">Home</a>
-            </li>
-            <li>
-              <a href="blog.html" class="nav__link">Blog</a>
-            </li>
-            <li>
-              <a href="about.html" class="nav__link">About</a>
-            </li>
-          </ul>
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       SITE HEADER
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <header class="site-header" data-site-header>
+    <div class="container site-header__inner">
 
-          <!-- Right-side action buttons -->
-          <div class="nav__actions">
+      <a href="index.html" class="site-logo" aria-label="Build Apps Blog — home">
+        Build Apps Blog
+      </a>
 
-            <!-- Dark mode toggle -->
-            <button
-              class="nav__theme-btn"
-              aria-label="Switch to dark mode"
-              title="Switch to dark mode">
-              🌙
-            </button>
+      <button
+        class="nav-toggle"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="site-nav"
+        aria-label="Toggle navigation"
+      >
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+        <span aria-hidden="true"></span>
+      </button>
 
-            <!-- Mobile hamburger menu button -->
-            <button
-              class="nav__hamburger"
-              aria-label="Open navigation menu"
-              aria-expanded="false"
-              aria-controls="mobile-menu">
-              <span class="nav__hamburger-line" aria-hidden="true"></span>
-              <span class="nav__hamburger-line" aria-hidden="true"></span>
-              <span class="nav__hamburger-line" aria-hidden="true"></span>
-            </button>
-
-          </div>
-        </div><!-- /.nav__inner -->
-      </div><!-- /.container -->
-
-      <!-- Mobile dropdown menu -->
-      <nav
-        id="mobile-menu"
-        class="nav__mobile-menu"
-        aria-label="Mobile navigation">
-        <a href="index.html" class="nav__link nav__link--active"
-          aria-current="page">Home</a>
-        <a href="blog.html"  class="nav__link">Blog</a>
-        <a href="about.html" class="nav__link">About</a>
+      <nav id="site-nav" class="site-nav" data-nav-menu aria-label="Main navigation">
+        <ul class="site-nav__list" role="list">
+          <li><a href="#posts">Posts</a></li>
+          <li><a href="#about">About</a></li>
+          <li>
+            <a
+              href="https://github.com/japhet996sunday-cell"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Japhet's GitHub profile (opens in new tab)"
+            >GitHub</a>
+          </li>
+        </ul>
       </nav>
 
-    </nav>
+    </div>
   </header>
-  <!-- /header -->
 
 
-  <!-- ════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       HERO SECTION
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <section class="hero" aria-label="Site introduction">
+    <div class="container hero__inner">
+
+      <div class="hero__content">
+        <p class="hero__kicker">A developer blog by Japhet Sunday</p>
+        <h1 class="hero__title">
+          Build real apps.<br />
+          <span class="hero__title-accent">Ship real code.</span>
+        </h1>
+        <p class="hero__description">
+          Practical tutorials on building web applications with HTML, CSS, and
+          vanilla JavaScript — no frameworks, no fluff. Every post documents a
+          real project with working code.
+        </p>
+        <div class="hero__cta">
+          <a href="#posts" class="btn btn--primary">Read the posts</a>
+          <a
+            href="https://japhet996sunday-cell.github.io/japhet-portfolio/"
+            class="btn btn--outline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >View portfolio ↗</a>
+        </div>
+      </div>
+
+      <div class="hero__dot-grid" aria-hidden="true"></div>
+
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
        MAIN CONTENT
-       ════════════════════════════════════════════════════════════ -->
+       ═══════════════════════════════════════════════════════════════════════ -->
   <main id="main-content">
 
-
-    <!-- ── Hero Section ────────────────────────────────────────── -->
-    <section class="hero" aria-labelledby="hero-heading">
+    <!-- Posts Section ──────────────────────────────────────────────────── -->
+    <section id="posts" class="posts-section" aria-label="Blog posts">
       <div class="container">
-        <div class="hero__content">
 
-          <!-- Eyebrow label -->
-          <div class="hero__eyebrow" aria-hidden="true">
-            <span>✦</span>
-            <span>Weekly frontend tutorials</span>
-          </div>
-
-          <!-- Main headline -->
-          <h1 class="hero__title" id="hero-heading">
-            Learn to build<br>
-            <em>real</em> web applications
-          </h1>
-
-          <!-- Supporting description -->
-          <p class="hero__description">
-            Step-by-step tutorials on building frontend projects that actually
-            work — expense trackers, dashboards, AI chat apps, and more.
-            No fluff. Just code.
+        <div class="section-header">
+          <h2 class="section-title">Latest Posts</h2>
+          <p class="section-subtitle">
+            Tutorials that document real builds — with every mistake included.
           </p>
-
-          <!-- CTA buttons -->
-          <div class="hero__actions">
-            <a href="#posts-section" class="btn-primary">
-              <span aria-hidden="true">📚</span>
-              Start reading
-            </a>
-            <a href="about.html" class="btn-secondary">
-              About this blog
-            </a>
-          </div>
-
-          <!-- Quick-glance stats -->
-          <div class="hero__stats" aria-label="Blog stats">
-
-            <div class="hero__stat">
-              <div class="hero__stat-value">7+</div>
-              <div class="hero__stat-label">Published tutorials</div>
-            </div>
-
-            <div class="hero__stat-divider" aria-hidden="true"></div>
-
-            <div class="hero__stat">
-              <div class="hero__stat-value">100%</div>
-              <div class="hero__stat-label">Free to read</div>
-            </div>
-
-            <div class="hero__stat-divider" aria-hidden="true"></div>
-
-            <div class="hero__stat">
-              <div class="hero__stat-value">0</div>
-              <div class="hero__stat-label">Frameworks required</div>
-            </div>
-
-          </div>
-
-        </div><!-- /.hero__content -->
-      </div><!-- /.container -->
-    </section>
-    <!-- /hero -->
-
-
-    <!-- ── Search & Filter Bar ──────────────────────────────────── -->
-    <section
-      class="search-filter"
-      aria-label="Search and filter blog posts">
-      <div class="container">
-        <div class="search-filter__row">
-
-          <!-- Search input -->
-          <div class="search-box" role="search">
-            <span class="search-box__icon" aria-hidden="true">🔍</span>
-
-            <label for="search-input" class="sr-only">
-              Search posts by title, topic, or keyword
-            </label>
-
-            <input
-              type="search"
-              id="search-input"
-              class="search-box__input"
-              placeholder="Search tutorials…"
-              autocomplete="off"
-              spellcheck="false"
-              aria-label="Search posts">
-
-            <!-- Clear button — shown by JS when input has content -->
-            <button
-              id="search-clear"
-              class="search-box__clear"
-              aria-label="Clear search"
-              title="Clear search">
-              ✕
-            </button>
-          </div>
-          <!-- /.search-box -->
-
-          <!-- Tag filter buttons (populated by JS) -->
-          <div
-            id="filter-tags"
-            class="filter-tags"
-            role="group"
-            aria-label="Filter posts by category">
-            <!-- JS renders buttons here -->
-          </div>
-
-          <!-- Live post count -->
-          <span
-            id="post-count"
-            class="search-filter__count"
-            aria-live="polite"
-            aria-atomic="true">
-            <!-- JS updates this -->
-          </span>
-
-        </div><!-- /.search-filter__row -->
-      </div><!-- /.container -->
-    </section>
-    <!-- /search-filter -->
-
-
-    <!-- ── Posts Section ────────────────────────────────────────── -->
-    <section
-      id="posts-section"
-      class="posts-section"
-      aria-labelledby="posts-heading">
-      <div class="container">
-
-        <!-- Section header -->
-        <div class="posts-section__header">
-          <h2 class="posts-section__title" id="posts-heading">
-            Latest Articles
-          </h2>
-          <a href="blog.html" class="posts-section__link">
-            View all
-            <span aria-hidden="true">→</span>
-          </a>
         </div>
 
-        <!-- Loading skeleton (hidden once JS renders) -->
+        <!-- Tag filter buttons — injected by blog.js from posts.json -->
         <div
-          id="posts-loading"
-          class="skeleton-grid"
-          aria-busy="true"
-          aria-label="Loading posts…">
-          <!-- Skeleton card 1 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--sm"></div>
-              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
-              <div class="skeleton-line skeleton-line--md"></div>
-              <div class="skeleton-line skeleton-line--md"></div>
-            </div>
-          </div>
-          <!-- Skeleton card 2 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--sm"></div>
-              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
-              <div class="skeleton-line skeleton-line--md"></div>
-              <div class="skeleton-line skeleton-line--sm"></div>
-            </div>
-          </div>
-          <!-- Skeleton card 3 -->
-          <div class="skeleton-card">
-            <div class="skeleton-thumb"></div>
-            <div class="skeleton-body">
-              <div class="skeleton-line skeleton-line--sm"></div>
-              <div class="skeleton-line skeleton-line--xl skeleton-line--lg"></div>
-              <div class="skeleton-line skeleton-line--lg"></div>
-              <div class="skeleton-line skeleton-line--sm"></div>
-            </div>
-          </div>
-        </div>
-        <!-- /posts-loading -->
+          class="tag-filters"
+          data-tag-filters
+          role="group"
+          aria-label="Filter posts by tag"
+        ></div>
 
-        <!-- Featured post slot (populated by JS) -->
+        <!-- Post card grid — rendered by blog.js.
+             aria-busy is set to "true" during the fetch, cleared on completion. -->
         <div
-          id="featured-post"
-          aria-label="Featured article">
-          <!-- JS renders the featured post card here -->
-        </div>
+          class="post-grid"
+          data-post-grid
+          aria-live="polite"
+          aria-label="Blog post cards"
+        ></div>
 
-        <!-- Regular posts grid (populated by JS) -->
-        <div
-          id="posts-grid"
-          class="posts-grid"
-          aria-label="Blog posts">
-          <!-- JS renders post cards here -->
-        </div>
+        <!-- Empty state: shown when a tag filter returns zero results -->
+        <p class="empty-state" data-empty-state hidden>
+          No posts found for this tag yet — check back soon!
+        </p>
 
-        <!-- Empty state (shown by JS when no results match) -->
-        <div
-          id="empty-state"
-          class="empty-state"
-          role="status"
-          aria-live="polite">
-          <div class="empty-state__icon" aria-hidden="true">🔍</div>
-          <h3 class="empty-state__title">No posts found</h3>
-          <p class="empty-state__text">
-            Nothing matches "<span id="empty-query"></span>" in
-            your current filter. Try a different keyword or browse all articles.
-          </p>
-          <button
-            id="reset-filters"
-            class="empty-state__reset"
-            type="button">
-            <span aria-hidden="true">↩</span>
-            Show all posts
+        <!-- Load More: revealed by blog.js when more posts exist -->
+        <div class="load-more-wrap">
+          <button class="btn btn--outline btn--load-more" data-load-more hidden>
+            Load more posts
           </button>
         </div>
-        <!-- /empty-state -->
 
-      </div><!-- /.container -->
+      </div>
     </section>
-    <!-- /posts-section -->
 
+    <!-- About Section ──────────────────────────────────────────────────── -->
+    <section id="about" class="about-section" aria-label="About the author">
+      <div class="container about-section__inner">
 
-  </main>
-  <!-- /main -->
+        <div class="about-card">
+          <div class="about-card__avatar-wrap">
+            <!--
+              Replace the src with the path to your actual photo.
+              Recommended: a square image at least 192×192 px.
+              The onerror handler shows the "JS" initials fallback
+              if the image file is missing or fails to load.
+            -->
+            <img
+              src="assets/images/author-avatar.png"
+              alt="Japhet Sunday — frontend developer based in Abuja, Nigeria"
+              class="about-card__avatar"
+              width="96"
+              height="96"
+              loading="lazy"
+              onerror="this.style.display='none';this.nextElementSibling.style.display='flex';"
+            />
+            <div class="about-card__avatar-fallback" aria-hidden="true">JS</div>
+          </div>
 
-
-  <!-- ════════════════════════════════════════════════════════════
-       FOOTER
-       ════════════════════════════════════════════════════════════ -->
-  <footer class="footer" aria-label="Site footer">
-    <div class="container">
-
-      <!-- Three-column grid: brand | navigate | topics -->
-      <div class="footer__grid">
-
-        <!-- Brand column -->
-        <div class="footer__brand">
-          <p class="footer__brand-name">Build Apps Blog</p>
-          <p class="footer__brand-desc">
-            Weekly tutorials on building real-world web applications
-            with HTML, CSS, and Vanilla JavaScript. From beginner
-            project to production-ready code.
-          </p>
-          <!-- Social placeholder links -->
-          <div class="footer__socials" aria-label="Social links">
-            <a
-              href="#"
-              class="footer__social-btn"
-              aria-label="GitHub (placeholder)"
-              title="GitHub">
-              🐙
-            </a>
-            <a
-              href="#"
-              class="footer__social-btn"
-              aria-label="Twitter / X (placeholder)"
-              title="Twitter">
-              🐦
-            </a>
-            <a
-              href="#"
-              class="footer__social-btn"
-              aria-label="LinkedIn (placeholder)"
-              title="LinkedIn">
-              💼
-            </a>
-            <a
-              href="#"
-              class="footer__social-btn"
-              aria-label="RSS feed (placeholder)"
-              title="RSS">
-              📡
-            </a>
+          <div class="about-card__body">
+            <h2 class="about-card__name">Japhet Sunday</h2>
+            <p class="about-card__bio">
+              Frontend developer based in Abuja, Nigeria. I completed a frontend
+              track at DCH Academy and document everything I build here — real
+              projects with real code, written for developers who learn by doing.
+            </p>
+            <p class="about-card__bio">
+              Background in Mass Communication (HND, Lens Polytechnic). I also
+              tutor HTML and CSS independently and share everything I learn in
+              public.
+            </p>
+            <div class="about-card__links">
+              <a
+                href="https://github.com/japhet996sunday-cell"
+                class="about-card__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Japhet Sunday on GitHub (opens in new tab)"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" focusable="false">
+                  <path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/>
+                </svg>
+                GitHub
+              </a>
+              <a
+                href="https://japhet996sunday-cell.github.io/japhet-portfolio/"
+                class="about-card__link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Japhet Sunday's portfolio website (opens in new tab)"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                  <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/>
+                  <polyline points="15 3 21 3 21 9"/>
+                  <line x1="10" y1="14" x2="21" y2="3"/>
+                </svg>
+                Portfolio
+              </a>
+              <a
+                href="mailto:japhet996sunday@gmail.com"
+                class="about-card__link"
+                aria-label="Send email to Japhet Sunday"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true" focusable="false">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                  <polyline points="22,6 12,13 2,6"/>
+                </svg>
+                Email
+              </a>
+            </div>
           </div>
         </div>
 
-        <!-- Navigate column -->
-        <div>
-          <p class="footer__col-title">Navigate</p>
-          <ul class="footer__links" role="list">
-            <li><a href="index.html" class="footer__link">Home</a></li>
-            <li><a href="blog.html"  class="footer__link">All articles</a></li>
-            <li><a href="about.html" class="footer__link">About</a></li>
-          </ul>
-        </div>
-
-        <!-- Topics column -->
-        <div>
-          <p class="footer__col-title">Topics</p>
-          <ul class="footer__links" role="list">
-            <li><a href="blog.html" class="footer__link">JavaScript Projects</a></li>
-            <li><a href="blog.html" class="footer__link">CSS Techniques</a></li>
-            <li><a href="blog.html" class="footer__link">UI Builds</a></li>
-            <li><a href="blog.html" class="footer__link">API Integration</a></li>
-            <li><a href="blog.html" class="footer__link">Frontend Fundamentals</a></li>
-          </ul>
-        </div>
-
       </div>
-      <!-- /.footer__grid -->
+    </section>
 
-      <!-- Bottom bar: copyright + legal -->
-      <div class="footer__bottom">
-        <p class="footer__copyright">
-          &copy; <span id="footer-year"></span> Build Apps Blog.
-          Built with HTML, CSS &amp; JavaScript.
-        </p>
-        <nav class="footer__bottom-links" aria-label="Legal links">
-          <a href="#" class="footer__bottom-link">Privacy</a>
-          <a href="#" class="footer__bottom-link">Terms</a>
-          <a href="about.html" class="footer__bottom-link">About</a>
-        </nav>
-      </div>
+  </main>
 
-    </div><!-- /.container -->
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       SITE FOOTER
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <footer class="site-footer">
+    <div class="container site-footer__inner">
+      <p class="site-footer__copy">
+        © <span id="footer-year"></span> Build Apps Blog ·
+        Built with pure HTML, CSS &amp; JS by
+        <a
+          href="https://github.com/japhet996sunday-cell"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Japhet Sunday</a>
+        · <a href="sitemap.xml">Sitemap</a>
+      </p>
+    </div>
   </footer>
-  <!-- /footer -->
 
 
-  <!-- ════════════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════════════════════
        SCRIPTS
-       Load order matters — app.js first (provides utilities),
-       then blog.js (consumes them).
-       ════════════════════════════════════════════════════════════ -->
-  <script src="assets/js/app.js"></script>
-  <script src="assets/js/blog.js"></script>
+       Both scripts use defer so they download in parallel with HTML parsing
+       and execute in order after the DOM is fully built.
+       blog.js before app.js: the post grid must initialise before global
+       UI concerns (nav, header scroll) that app.js sets up.
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <script src="assets/js/blog.js" defer></script>
+  <script src="assets/js/app.js"  defer></script>
+
+  <!-- Inline script: sets footer year without waiting for deferred scripts -->
+  <script>document.getElementById('footer-year').textContent = new Date().getFullYear();</script>
 
 </body>
 </html>
