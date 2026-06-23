@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  sitemap.xml — Build Apps Blog
+  ═══════════════════════════════════════════════════════════════════════════════
+  Live URL: https://japhet996sunday-cell.github.io/build-apps-blog/
+
+  WHAT THIS FILE DOES
+  ───────────────────
+  A sitemap tells Google and Bing exactly which pages exist on your site and
+  when they were last updated. Without one, crawlers may miss pages or
+  re-crawl them less frequently.
+
+  HOW TO SUBMIT THIS SITEMAP
+  ──────────────────────────
+  1. Go to https://search.google.com/search-console
+  2. Add your property: https://japhet996sunday-cell.github.io/build-apps-blog/
+  3. Navigate to Sitemaps (left sidebar)
+  4. Enter: sitemap.xml  →  Submit
+
+  HOW TO MAINTAIN THIS FILE
+  ──────────────────────────
+  Every time you publish a new post:
+    1. Create the HTML file in /posts/
+    2. Add the post object to posts.json
+    3. Copy one of the <url> blocks below and update:
+         <loc>      → full URL of the new post (https://...github.io/.../posts/slug.html)
+         <lastmod>  → use updatedDate if it exists, otherwise publishDate (YYYY-MM-DD)
+    4. Uncomment the block if it was previously commented-out (scheduled)
+
+  FIELD REFERENCE
+  ───────────────
+  <loc>        Required. The full, absolute URL of the page.
+  <lastmod>    The date the page content was last meaningfully changed (YYYY-MM-DD).
+               Use updatedDate from posts.json when available, else publishDate.
+  <changefreq> Hint to crawlers: how often this page is likely to change.
+               homepage = "weekly" | blog posts = "monthly"
+  <priority>   Relative importance: 1.0 (highest) to 0.1 (lowest).
+               This is a hint, not a ranking signal.
+  ═══════════════════════════════════════════════════════════════════════════════
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- ── Homepage ─────────────────────────────────────────────────────────── -->
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- ── Published Posts ───────────────────────────────────────────────────── -->
+
+  <!-- Post 1: build-expense-tracker — lastmod = updatedDate (2026-06-21) -->
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/build-expense-tracker.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Post 2: school-portal-dashboard — lastmod = publishDate (2026-06-23) -->
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/school-portal-dashboard.html</loc>
+    <lastmod>2026-06-23</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Post 3: responsive-navbar — lastmod = publishDate (2026-06-30) -->
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/responsive-navbar.html</loc>
+    <lastmod>2026-06-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- ── Scheduled Posts ───────────────────────────────────────────────────── -->
+  <!-- Uncomment each block AND create the matching HTML file on its publish date -->
+
+  <!--
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/ai-chat-api-integration.html</loc>
+    <lastmod>2026-07-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  -->
+
+  <!--
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/css-grid-vs-flexbox.html</loc>
+    <lastmod>2026-07-14</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  -->
+
+  <!--
+  <url>
+    <loc>https://japhet996sunday-cell.github.io/build-apps-blog/posts/localstorage-patterns.html</loc>
+    <lastmod>2026-07-21</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  -->
+
+</urlset>
