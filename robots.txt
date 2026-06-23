@@ -1,0 +1,13 @@
+# robots.txt — Build Apps Blog
+# https://japhet996sunday-cell.github.io/build-apps-blog/
+#
+# This file tells search engine crawlers which pages they are
+# allowed or disallowed from indexing. "Allow: /" means every
+# page on this site is open for crawling — correct for a public blog.
+#
+# Reference: https://developers.google.com/search/docs/crawling-indexing/robots/intro
+
+User-agent: *
+Allow: /
+
+Sitemap: https://japhet996sunday-cell.github.io/build-apps-blog/sitemap.xml
