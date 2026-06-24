@@ -3,7 +3,7 @@
     "title": "How to Build an Expense Tracker with Vanilla JS",
     "slug": "build-expense-tracker",
     "excerpt": "Learn how to build a real-world expense tracker using HTML, CSS, and JavaScript — complete with localStorage persistence, category filters, and a live Chart.js summary.",
-    "thumbnail": "assets/images/thumbnails/expense-tracker.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=Expense+Tracker",
     "tags": ["JavaScript", "Projects", "CSS"],
     "publishDate": "2026-06-16",
     "updatedDate": "2026-06-21",
@@ -20,7 +20,7 @@
     "title": "Building a School Management Portal from Scratch",
     "slug": "school-portal-dashboard",
     "excerpt": "A step-by-step walkthrough of how I built EduCore — a full CRUD school portal with student records, attendance tracking, and dark mode using only Bootstrap 5 and vanilla JS.",
-    "thumbnail": "assets/images/thumbnails/school-portal.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=School+Portal",
     "tags": ["JavaScript", "Bootstrap", "Projects"],
     "publishDate": "2026-06-23",
     "featured": true,
@@ -36,7 +36,7 @@
     "title": "Crafting a Responsive Navbar That Actually Works",
     "slug": "responsive-navbar",
     "excerpt": "Hamburger menus, scroll effects, active-link tracking with IntersectionObserver — everything you need to build a production-ready navigation component without a framework.",
-    "thumbnail": "assets/images/thumbnails/responsive-navbar.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=Responsive+Navbar",
     "tags": ["CSS", "JavaScript", "UI Components"],
     "publishDate": "2026-06-30",
     "author": {
@@ -51,7 +51,7 @@
     "title": "How to Integrate an AI Chat API into a Web App",
     "slug": "ai-chat-api-integration",
     "excerpt": "Connecting a frontend to an AI model via OpenRouter doesn't have to be complicated. Here's the full pattern: fetch, stream, render Markdown, and persist chat history.",
-    "thumbnail": "assets/images/thumbnails/ai-chat.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=AI+Chat+API",
     "tags": ["JavaScript", "API", "Projects"],
     "publishDate": "2026-07-07",
     "author": {
@@ -66,7 +66,7 @@
     "title": "CSS Grid vs Flexbox: When to Use Which",
     "slug": "css-grid-vs-flexbox",
     "excerpt": "Stop reaching for the same layout tool by default. This post breaks down exactly when Grid wins, when Flexbox wins, and why combining both is often the real answer.",
-    "thumbnail": "assets/images/thumbnails/grid-vs-flex.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=Grid+vs+Flexbox",
     "tags": ["CSS", "Layout", "Fundamentals"],
     "publishDate": "2026-07-14",
     "author": {
@@ -81,7 +81,7 @@
     "title": "LocalStorage Patterns Every Frontend Dev Should Know",
     "slug": "localstorage-patterns",
     "excerpt": "LocalStorage is deceptively simple. This guide covers safe read/write patterns, JSON serialisation pitfalls, storage limits, and a reusable StorageService module.",
-    "thumbnail": "assets/images/thumbnails/localstorage.png",
+    "thumbnail": "https://via.placeholder.com/800x450/4F6EF7/ffffff?text=LocalStorage+Patterns",
     "tags": ["JavaScript", "Fundamentals", "Patterns"],
     "publishDate": "2026-07-21",
     "author": {
@@ -93,4 +93,3 @@
     }
   }
 ]
-
