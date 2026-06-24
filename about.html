@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>About – Build Apps Blog | HTML, CSS & JavaScript Tutorials</title>
+  <meta name="description" content="Learn about Build Apps Blog and Japhet Sunday, a frontend developer sharing real-world web development tutorials.">
+  <meta name="author" content="Japhet Sunday">
+  
+  <link rel="canonical" href="https://japhet996sunday-cell.github.io/build-apps-blog/about.html">
+  <meta name="theme-color" content="#4F6EF7">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://japhet996sunday-cell.github.io/build-apps-blog/about.html">
+  <meta property="og:title" content="About – Build Apps Blog">
+  <meta property="og:description" content="Learn about Build Apps Blog and Japhet Sunday, a frontend developer sharing real-world web development tutorials.">
+  
+  <!-- Fonts and Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+</head>
+
+<body data-page="about">
+
+  <!-- Navigation Header -->
+  <header data-site-header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav__inner">
+          <a href="index.html" class="nav__logo" aria-label="Build Apps Blog — go to homepage">
+            <span class="nav__logo-icon" aria-hidden="true">⚡</span>
+            <span class="nav__logo-text">Build Apps Blog</span>
+          </a>
+          
+          <ul class="nav__links" role="list">
+            <li><a href="index.html" class="nav__link">Home</a></li>
+            <li><a href="blog.html" class="nav__link">Blog</a></li>
+            <li><a href="about.html" class="nav__link nav__link--active" aria-current="page">About</a></li>
+          </ul>
+          
+          <div class="nav__actions">
+            <button class="nav__theme-btn" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
+            <button class="nav__hamburger" data-nav-toggle aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <nav id="mobile-menu" data-nav-menu class="nav__mobile-menu" aria-label="Mobile navigation">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="blog.html" class="nav__link">Blog</a>
+        <a href="about.html" class="nav__link nav__link--active" aria-current="page">About</a>
+      </nav>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    
+    <!-- About Hero Section -->
+    <section class="hero" aria-labelledby="about-heading">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="hero__title" id="about-heading">About This Blog</h1>
+          <p class="hero__description">
+            Real web development tutorials for people who want to learn by building.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- About Content -->
+    <section class="about-section">
+      <div class="container" style="max-width: 800px;">
+        
+        <!-- Mission -->
+        <article style="margin-bottom: 3rem;">
+          <h2 style="margin-bottom: 1rem;">Mission</h2>
+          <p>
+            <strong>Build Apps Blog</strong> exists to share practical, step-by-step tutorials on building 
+            real frontend applications. Every tutorial covers a complete project — from planning and architecture 
+            through to production-ready code.
+          </p>
+          <p>
+            We believe the best way to learn web development is by building things that actually work. 
+            No toy examples. No single-concept deep-dives without context. Just real projects with real code.
+          </p>
+        </article>
+
+        <!-- About the Author -->
+        <article style="margin-bottom: 3rem;">
+          <h2 style="margin-bottom: 1rem;">About Japhet Sunday</h2>
+          <p>
+            Hi! I'm <strong>Japhet Sunday</strong>, a frontend developer from Nigeria with an HND in Mass Communication. 
+            I discovered web development and fell in love with the craft of building things on the web.
+          </p>
+          <p>
+            I started this blog to share what I've learned building real projects — and to help others avoid the pitfalls 
+            I hit along the way. Every tutorial here is a project I've actually built, debugged, and deployed.
+          </p>
+          <p>
+            When I'm not coding, I'm writing, learning new frameworks, or thinking about the future of web development.
+          </p>
+        </article>
+
+        <!-- What You'll Find -->
+        <article style="margin-bottom: 3rem;">
+          <h2 style="margin-bottom: 1rem;">What You'll Find Here</h2>
+          <ul style="line-height: 1.8;">
+            <li><strong>JavaScript Projects</strong> — expense trackers, dashboards, chat apps, and more</li>
+            <li><strong>CSS Techniques</strong> — layouts, animations, responsive design, and modern CSS features</li>
+            <li><strong>UI Components</strong> — navbars, modals, forms, and interactive elements</li>
+            <li><strong>Frontend Patterns</strong> — state management, API integration, localStorage strategies</li>
+            <li><strong>Fundamentals</strong> — the core concepts that everything else builds on</li>
+          </ul>
+        </article>
+
+        <!-- Tech Stack -->
+        <article style="margin-bottom: 3rem;">
+          <h2 style="margin-bottom: 1rem;">About This Site</h2>
+          <p>
+            <strong>Build Apps Blog</strong> is built entirely with vanilla HTML, CSS, and JavaScript. 
+            No frameworks. No build tools. No dependencies. Just clean, semantic HTML and standards-based JavaScript.
+          </p>
+          <p>
+            This is intentional. We walk the walk here — if we're teaching vanilla JS, we use vanilla JS.
+          </p>
+        </article>
+
+        <!-- Connect -->
+        <article>
+          <h2 style="margin-bottom: 1rem;">Connect</h2>
+          <p>
+            Have questions? Found a bug? Want to collaborate? 
+            <a href="https://github.com/japhet996sunday-cell" target="_blank" rel="noopener noreferrer">Reach out on GitHub</a> 
+            or check out my 
+            <a href="https://japhet996sunday-cell.github.io/japhet-portfolio/" target="_blank" rel="noopener noreferrer">portfolio</a>.
+          </p>
+        </article>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <p class="footer__brand-name">Build Apps Blog</p>
+          <p class="footer__brand-desc">
+            Weekly tutorials on building real-world web applications
+            with HTML, CSS, and Vanilla JavaScript.
+          </p>
+          <div class="footer__socials" aria-label="Social links">
+            <a href="https://github.com/japhet996sunday-cell" class="footer__social-btn" aria-label="GitHub" target="_blank" rel="noopener noreferrer">🐙</a>
+            <a href="#" class="footer__social-btn" aria-label="Twitter / X">🐦</a>
+            <a href="#" class="footer__social-btn" aria-label="LinkedIn">💼</a>
+            <a href="#" class="footer__social-btn" aria-label="RSS feed">📡</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Navigate</p>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html" class="footer__link">Home</a></li>
+            <li><a href="blog.html" class="footer__link">All articles</a></li>
+            <li><a href="about.html" class="footer__link">About</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Topics</p>
+          <ul class="footer__links" role="list">
+            <li><a href="blog.html" class="footer__link">JavaScript Projects</a></li>
+            <li><a href="blog.html" class="footer__link">CSS Techniques</a></li>
+            <li><a href="blog.html" class="footer__link">UI Builds</a></li>
+            <li><a href="blog.html" class="footer__link">API Integration</a></li>
+            <li><a href="blog.html" class="footer__link">Frontend Fundamentals</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; <span id="footer-year"></span> Build Apps Blog.
+          Built with HTML, CSS &amp; JavaScript.
+        </p>
+        <nav class="footer__bottom-links" aria-label="Legal links">
+          <a href="#" class="footer__bottom-link">Privacy</a>
+          <a href="#" class="footer__bottom-link">Terms</a>
+          <a href="about.html" class="footer__bottom-link">About</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/app.js"></script>
+
+</body>
+</html>
