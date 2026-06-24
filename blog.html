@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>All Articles – Build Apps Blog | HTML, CSS & JavaScript Tutorials</title>
+  <meta name="description" content="Browse all tutorials on building web applications with HTML, CSS, and Vanilla JavaScript.">
+  <meta name="keywords" content="blog, articles, tutorials, web development, frontend">
+  <meta name="author" content="Japhet Sunday">
+  
+  <link rel="canonical" href="https://japhet996sunday-cell.github.io/build-apps-blog/blog.html">
+  <meta name="theme-color" content="#4F6EF7">
+  
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://japhet996sunday-cell.github.io/build-apps-blog/blog.html">
+  <meta property="og:title" content="All Articles – Build Apps Blog">
+  <meta property="og:description" content="Browse all tutorials on building web applications with HTML, CSS, and Vanilla JavaScript.">
+  
+  <!-- Fonts and Styles -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/css/style.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="assets/images/favicon.ico">
+  <link rel="icon" type="image/svg+xml" href="assets/images/favicon.svg">
+</head>
+
+<body data-page="blog">
+
+  <!-- Navigation Header -->
+  <header data-site-header>
+    <nav class="nav" aria-label="Main navigation">
+      <div class="container">
+        <div class="nav__inner">
+          <a href="index.html" class="nav__logo" aria-label="Build Apps Blog — go to homepage">
+            <span class="nav__logo-icon" aria-hidden="true">⚡</span>
+            <span class="nav__logo-text">Build Apps Blog</span>
+          </a>
+          
+          <ul class="nav__links" role="list">
+            <li><a href="index.html" class="nav__link">Home</a></li>
+            <li><a href="blog.html" class="nav__link nav__link--active" aria-current="page">Blog</a></li>
+            <li><a href="about.html" class="nav__link">About</a></li>
+          </ul>
+          
+          <div class="nav__actions">
+            <button class="nav__theme-btn" aria-label="Switch to dark mode" title="Switch to dark mode">🌙</button>
+            <button class="nav__hamburger" data-nav-toggle aria-label="Open navigation menu" aria-expanded="false" aria-controls="mobile-menu">
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+              <span class="nav__hamburger-line" aria-hidden="true"></span>
+            </button>
+          </div>
+        </div>
+      </div>
+      
+      <nav id="mobile-menu" data-nav-menu class="nav__mobile-menu" aria-label="Mobile navigation">
+        <a href="index.html" class="nav__link">Home</a>
+        <a href="blog.html" class="nav__link nav__link--active" aria-current="page">Blog</a>
+        <a href="about.html" class="nav__link">About</a>
+      </nav>
+    </nav>
+  </header>
+
+  <!-- Main Content -->
+  <main id="main-content">
+    
+    <!-- Blog Hero Section -->
+    <section class="hero" aria-labelledby="blog-heading">
+      <div class="container">
+        <div class="hero__content">
+          <h1 class="hero__title" id="blog-heading">All Articles</h1>
+          <p class="hero__description">
+            Explore the complete collection of tutorials on building real-world 
+            web applications with HTML, CSS, and Vanilla JavaScript.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search & Filter Bar -->
+    <section class="search-filter" aria-label="Search and filter blog posts">
+      <div class="container">
+        <div class="search-filter__row">
+          <div class="search-box" role="search">
+            <span class="search-box__icon" aria-hidden="true">🔍</span>
+            <label for="search-input" class="sr-only">Search posts by title, topic, or keyword</label>
+            <input type="search" id="search-input" class="search-box__input" placeholder="Search tutorials…" autocomplete="off" spellcheck="false" aria-label="Search posts">
+            <button id="search-clear" class="search-box__clear" aria-label="Clear search" title="Clear search">✕</button>
+          </div>
+          
+          <div data-tag-filters class="filter-tags" role="group" aria-label="Filter posts by category"></div>
+          
+          <span id="post-count" class="search-filter__count" aria-live="polite" aria-atomic="true"></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Posts Grid -->
+    <section class="posts-section" aria-labelledby="articles-heading">
+      <div class="container">
+        <h2 class="posts-section__title" id="articles-heading" style="margin-bottom: 2rem;">Articles</h2>
+        
+        <div data-post-grid class="posts-grid" aria-label="Blog posts">
+          <!-- JS renders post cards here -->
+        </div>
+
+        <!-- Load More Button -->
+        <div style="text-align: center; margin-top: 3rem;">
+          <button data-load-more class="btn-primary" style="display: none;">Load More Articles</button>
+        </div>
+
+        <!-- Empty State -->
+        <div data-empty-state class="empty-state" role="status" aria-live="polite" hidden>
+          <div class="empty-state__icon" aria-hidden="true">🔍</div>
+          <h3 class="empty-state__title">No articles found</h3>
+          <p class="empty-state__text">
+            Nothing matches "<span id="empty-query"></span>". Try a different keyword or filter.
+          </p>
+          <button id="reset-filters" class="empty-state__reset" type="button">
+            <span aria-hidden="true">↩</span>
+            Show all articles
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer" aria-label="Site footer">
+    <div class="container">
+      <div class="footer__grid">
+        <div class="footer__brand">
+          <p class="footer__brand-name">Build Apps Blog</p>
+          <p class="footer__brand-desc">
+            Weekly tutorials on building real-world web applications
+            with HTML, CSS, and Vanilla JavaScript.
+          </p>
+          <div class="footer__socials" aria-label="Social links">
+            <a href="https://github.com/japhet996sunday-cell" class="footer__social-btn" aria-label="GitHub" target="_blank" rel="noopener noreferrer">🐙</a>
+            <a href="#" class="footer__social-btn" aria-label="Twitter / X">🐦</a>
+            <a href="#" class="footer__social-btn" aria-label="LinkedIn">💼</a>
+            <a href="#" class="footer__social-btn" aria-label="RSS feed">📡</a>
+          </div>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Navigate</p>
+          <ul class="footer__links" role="list">
+            <li><a href="index.html" class="footer__link">Home</a></li>
+            <li><a href="blog.html" class="footer__link">All articles</a></li>
+            <li><a href="about.html" class="footer__link">About</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <p class="footer__col-title">Topics</p>
+          <ul class="footer__links" role="list">
+            <li><a href="blog.html" class="footer__link">JavaScript Projects</a></li>
+            <li><a href="blog.html" class="footer__link">CSS Techniques</a></li>
+            <li><a href="blog.html" class="footer__link">UI Builds</a></li>
+            <li><a href="blog.html" class="footer__link">API Integration</a></li>
+            <li><a href="blog.html" class="footer__link">Frontend Fundamentals</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer__bottom">
+        <p class="footer__copyright">
+          &copy; <span id="footer-year"></span> Build Apps Blog.
+          Built with HTML, CSS &amp; JavaScript.
+        </p>
+        <nav class="footer__bottom-links" aria-label="Legal links">
+          <a href="#" class="footer__bottom-link">Privacy</a>
+          <a href="#" class="footer__bottom-link">Terms</a>
+          <a href="about.html" class="footer__bottom-link">About</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/blog.js"></script>
+
+</body>
+</html>
