@@ -6,7 +6,7 @@
   Phase 3A: SEO, metadata, and analytics layer
 
   HEAD CHANGES vs Phase 1:
-  ┌──────────────────────────────────────────────────────────────────┐
+  ┌─────────────────────────────────────────────────────────────────[...]
   │  UPDATED   <title>         — keyword-front-loaded for SEO        │
   │  ADDED     meta keywords   — supplementary keyword signal        │
   │  UPDATED   meta author     — real author name                    │
@@ -24,7 +24,7 @@
   │  ADDED     apple-touch-icon                                      │
   │  ADDED     Google Analytics — INACTIVE placeholder (G-XXXXXXXXXX)│
   │  ADDED     JSON-LD schema   — WebSite structured data            │
-  └──────────────────────────────────────────────────────────────────┘
+  └─────────────────────────────────────────────────────────────────[...]
 
   BODY CHANGES vs Phase 1:
   - NONE. Every element, class, ID, and script is identical.
@@ -243,7 +243,7 @@
   <!-- ════════════════════════════════════════════════════════════
        NAVIGATION
        ════════════════════════════════════════════════════════════ -->
-  <header>
+  <header data-site-header>
     <nav class="nav" aria-label="Main navigation">
       <div class="container">
         <div class="nav__inner">
@@ -282,6 +282,7 @@
             <!-- Mobile hamburger menu button -->
             <button
               class="nav__hamburger"
+              data-nav-toggle
               aria-label="Open navigation menu"
               aria-expanded="false"
               aria-controls="mobile-menu">
@@ -297,6 +298,7 @@
       <!-- Mobile dropdown menu -->
       <nav
         id="mobile-menu"
+        data-nav-menu
         class="nav__mobile-menu"
         aria-label="Mobile navigation">
         <a href="index.html" class="nav__link nav__link--active"
@@ -418,7 +420,7 @@
 
           <!-- Tag filter buttons (populated by JS) -->
           <div
-            id="filter-tags"
+            data-tag-filters
             class="filter-tags"
             role="group"
             aria-label="Filter posts by category">
@@ -506,7 +508,7 @@
 
         <!-- Regular posts grid (populated by JS) -->
         <div
-          id="posts-grid"
+          data-post-grid
           class="posts-grid"
           aria-label="Blog posts">
           <!-- JS renders post cards here -->
@@ -514,7 +516,7 @@
 
         <!-- Empty state (shown by JS when no results match) -->
         <div
-          id="empty-state"
+          data-empty-state
           class="empty-state"
           role="status"
           aria-live="polite">
